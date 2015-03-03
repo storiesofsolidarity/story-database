@@ -20,7 +20,6 @@ urlpatterns = patterns('',
     url(r'^activity/', include('actstream.urls')),
     # post via sms
 
-    url(r'^browse/', include(router.urls)), # nice api browser
-    url(r'^api/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api/', include(router.urls)), # nice api browser
 )
 admin.site.site_header = 'Stories of Solidarity Admin'
