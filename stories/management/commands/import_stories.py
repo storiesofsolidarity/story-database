@@ -28,8 +28,8 @@ class Command(BaseCommand):
                 user.save()
 
                 author, new_author = Author.objects.get_or_create(user=user)
-                if story['image']:
-                    author.photo = story['image']
+                #if story['image']:
+                #    author.photo = story['image']
                 author.save()
 
                 story = Story(author=author, content=story['story'])
