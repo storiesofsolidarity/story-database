@@ -11,6 +11,14 @@ class Author(models.Model):
     employed = models.BooleanField(default=True)
     part_time = models.BooleanField(default=False)
 
+    def __unicode__(self):
+        if self.title and self.company:
+            return "{}, {}, {}".format(self.user, self.title, self.company)
+        elif self.user:
+            return self.user.__unicode__()
+        else:
+            return "Unnamed Author"
+
 class Organizer(models.Model):
     user = models.OneToOneField(User)
     organization = models.CharField(max_length=100)
