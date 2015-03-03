@@ -9,6 +9,6 @@ class StoryViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly)
 
 class LocationViewSet(viewsets.ModelViewSet):
-    queryset = Location.objects.filter(lat__is_null=False, lon__is_null=False)
+    queryset = Location.objects.filter(lat__isnull=False, lon__isnull=False)
     serializer_class = LocationSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly)
