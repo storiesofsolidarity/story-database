@@ -7,10 +7,10 @@ from rest_framework import routers
 from stories.views import StoryViewSet, LocationViewSet
 from people.views import AuthorViewSet
 
-router = routers.DefaultRouter()
-router.register(r'stories', StoryViewSet)
-router.register(r'locations', LocationViewSet)
-router.register(r'authors', AuthorViewSet)
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'story', StoryViewSet)
+router.register(r'location', LocationViewSet)
+router.register(r'author', AuthorViewSet)
 
 urlpatterns = patterns('',
     url(r'^/$', RedirectView.as_view(url='http://storiesofsolidarity.org', permanent=False), name='index'),
