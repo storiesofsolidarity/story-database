@@ -9,7 +9,7 @@ from people.views import AuthorViewSet
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'story', StoryViewSet)
-router.register(r'location', LocationViewSet)
+router.register(r'location', LocationViewSet, base_name="Location")
 router.register(r'author', AuthorViewSet)
 
 urlpatterns = patterns('',
