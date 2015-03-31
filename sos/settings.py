@@ -18,11 +18,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
+ADMINS = (('Josh', 'josh@spacedog.xyz'),)
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost:9000',
+                 'spacedog.xyz',
+                 'storiesofsolidarity.org']
 
 # Application definition
 
@@ -34,7 +38,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'allauth',
+    'allauth.account',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
     'actstream',
 
     'people',
@@ -66,19 +75,28 @@ WSGI_APPLICATION = 'sos.wsgi.application'
 if DEBUG:
     CORS_ORIGIN_ALLOW_ALL = True
 else:
-    CORS_ORIGIN_WHITELIST = (
-        'localhost:9000',
-        'spacedog.xyz',
-        'storiesofsolidarity.org'
-    )
+    CORS_ORIGIN_WHITELIST = ALLOWED_HOSTS
     CORS_ALLOW_CREDENTIALS = True
 
 # REST Framework
-
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ( 'rest_framework.authentication.TokenAuthentication', ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 25
+    'PAGE_SIZE': 25,
 }
+
+# REST Authentication
+REST_SESSION_LOGIN = False
+
+# for email-only logins
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_REQUIRED = True   
+# ACCOUNT_USERNAME_REQUIRED = False
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend", # for admin
+    "allauth.account.auth_backends.AuthenticationBackend", # for rest 
+)
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases

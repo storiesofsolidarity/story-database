@@ -15,11 +15,12 @@ router.register(r'author', AuthorViewSet)
 urlpatterns = patterns('',
     url(r'^/$', RedirectView.as_view(url='http://storiesofsolidarity.org', permanent=False), name='index'),
     url(r'^admin/', include(admin.site.urls)),
-    # login, logout
-
-    url(r'^activity/', include('actstream.urls')),
-    # post via sms
 
     url(r'^api/', include(router.urls)), # nice api browser
+
+    url(r'^auth/', include('rest_auth.urls')),
+    url(r'^auth/registration/', include('rest_auth.registration.urls')),
+    # url(r'^sms/', include('sms.urls')), # post via sms
+    url(r'^activity/', include('actstream.urls'))
 )
 admin.site.site_header = 'Stories of Solidarity Admin'
