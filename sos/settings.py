@@ -8,17 +8,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import django
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 ADMINS = (('Josh', 'josh@spacedog.xyz'),)
+EMAIL_SUBJECT_PREFIX = '[StoriesOfSolidarity] '
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,6 +34,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'allauth',
@@ -114,20 +113,22 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, "sos", "templates"), os.path.dirname(django.__file__))
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
+# Email
+EMAIL_HOST = 'localhost'
+SERVER_EMAIL = 'info@storiesofsolidarity.org'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

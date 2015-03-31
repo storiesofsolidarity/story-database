@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 
     url(r'^api/', include(router.urls)), # nice api browser
 
+    url(r'^', include('django.contrib.auth.urls')), # HACK, for password reset reverse
     url(r'^auth/', include('rest_auth.urls')),
     url(r'^auth/registration/', include('rest_auth.registration.urls')),
     # url(r'^sms/', include('sms.urls')), # post via sms
