@@ -117,6 +117,8 @@ CACHES = {
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, "sos", "templates"), os.path.dirname(django.__file__))
 
+SITE_ID = 1
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
