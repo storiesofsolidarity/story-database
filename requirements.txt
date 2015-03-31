@@ -6,7 +6,9 @@ django-activity-stream==0.5.1
 django-allauth==0.19.1
 django-cors-headers==1.0.0
 django-filter==0.9.2
+django-heroku-memcacheify==0.8
 django-localflavor==1.1
+django-pylibmc==0.5.0
 django-rest-auth==0.3.4
 django-toolbelt==0.0.1
 django-wpadmin==1.7.0
@@ -14,6 +16,7 @@ djangorestframework==3.1.0
 gunicorn==19.2.1
 oauthlib==0.7.2
 psycopg2==2.6
+pylibmc==1.4.1
 python-openid==2.2.5
 requests==2.6.0
 requests-oauthlib==0.4.2
