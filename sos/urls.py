@@ -18,9 +18,9 @@ urlpatterns = patterns('',
 
     url(r'^api/', include(router.urls)), # nice api browser
 
-    url(r'^auth/', include('rest_auth.urls')),
-    url(r'^auth/registration/', include('rest_auth.registration.urls')),
+    url(r'^api/auth/', include('rest_auth.urls')),
+    url(r'^api/auth/registration/', include('rest_auth.registration.urls')),
     # url(r'^sms/', include('sms.urls')), # post via sms
-    url(r'^activity/', include('actstream.urls'))
+    url(r'^api/activity/', include('actstream.urls'))
 )
 admin.site.site_header = 'Stories of Solidarity Admin'
