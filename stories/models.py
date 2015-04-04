@@ -16,6 +16,9 @@ class Location(models.Model):
     # if we decide we need geodjango querying
     # objects = django.contrib.gis.db.models.GeoManager()
 
+    def __unicode__(self):
+        return "{}, {}".format(self.city,self.state)
+
 
 class Story(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
