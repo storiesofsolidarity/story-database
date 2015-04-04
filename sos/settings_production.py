@@ -23,7 +23,7 @@ EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allowed host headers
-ALLOWED_HOSTS = ['.storiesofsolidarity.org','sos-data-api.herokuapp.com']
+ALLOWED_HOSTS = ['storiesofsolidarity.org','spacedog.xyz',]
 CORS_ORIGIN_WHITELIST = ALLOWED_HOSTS
 
 # Share session cookies with frontend
