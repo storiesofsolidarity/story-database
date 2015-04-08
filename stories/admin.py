@@ -1,5 +1,9 @@
 from django.contrib import admin
 from models import Location, Story
 
-admin.site.register(Location)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('city', 'state', 'story_count')
+    list_filter = ('state',)
+
+admin.site.register(Location, LocationAdmin)
 admin.site.register(Story)
