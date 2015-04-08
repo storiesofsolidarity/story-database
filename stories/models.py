@@ -1,13 +1,13 @@
 from django.db import models
 from localflavor.us.models import USZipCodeField, USStateField
 
-from django.db.models import Count, Avg
+from django.db.models import Count
 
 from people.models import Author
 
 class LocationManager(models.Manager):
     def get_queryset(self):
-        qs = super(LocationManager,self).get_query_set()
+        qs = super(LocationManager,self).get_queryset()
         qs_w_count = qs.annotate( story_grouped_count = Count('story') )
         return qs_w_count
 
