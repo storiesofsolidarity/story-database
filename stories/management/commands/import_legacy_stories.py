@@ -55,17 +55,19 @@ class Command(BaseCommand):
                         author.employed = bool(data.get('Employed'))
                         author.company = data.get('Workplace')
                         author.title = data.get('JobTitle')
+                        if user.last_name.lower() == "anonymous":
+                                author.anonymous = True
+
                         author.save()
 
                     story.author = author                    
 
                 if data.get('Latitude') and data.get('Longitude'):
-                    location = Location(lat = data.get('Latitude'),
-                                        lon = data.get('Longitude'),
-                                        zipcode = data.get('Zipcode'),
-                                        city = data.get('City'),
-                                        state = data.get('State'),
-                                        geocoded = True)
+                    location, new_location = Location.objects.get_or_create(city = data.get('City'), state = data.get('State'))
+                    if new_location and data.get('Latitude') and data.get('Longitude'):
+                        location.lat = data.get('Latitude')
+                        location.lon = data.get('Longitude')
+                        location.geocoded = True
                     location.save()
                     story.location = location
                 story.save()
