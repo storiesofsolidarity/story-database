@@ -4,12 +4,12 @@ from django.contrib import admin
 
 from rest_framework import routers
 
-from stories.views import StoryViewSet, LocationViewSet
+from stories.views import StoryViewSet, LocationStoriesViewSet
 from people.views import AuthorViewSet
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'story', StoryViewSet)
-router.register(r'location', LocationViewSet, base_name="Location")
+router.register(r'location', LocationStoriesViewSet, base_name="Location")
 router.register(r'author', AuthorViewSet)
 
 urlpatterns = patterns('',
