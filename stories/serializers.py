@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from models import Location, Story
 
-from people.serializers import UserSerializer
+from people.serializers import AuthorSerializer, UserSerializer
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,10 +18,11 @@ class LocationStoriesSerializer(serializers.ModelSerializer):
 
 
 class StorySerializer(serializers.ModelSerializer):
-    author_user = UserSerializer(source='author.user')
+    author = AuthorSerializer()
     location = LocationSerializer()
 
     class Meta:
         model = Story
         fields = ('id', 'created_at', 'updated_at',
-                  'author_user', 'title', 'location', 'content')
+                  'title', 'location', 'content',
+                  'author')

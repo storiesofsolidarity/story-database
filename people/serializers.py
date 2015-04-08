@@ -9,8 +9,18 @@ class UserSerializer(serializers.ModelSerializer):
 
 class AuthorSerializer(serializers.ModelSerializer):
     user = UserSerializer(many=False, read_only=True)
+
+    #abuse to_relationship to hide user fields for anonymous authors
+    def to_representation(self, instance):
+        data = super(AuthorSerializer, self).to_representation(instance)
+        
+        if data['anonymous']:
+            #only show id and anon flag
+            return {'id': data['id'], 'anonymous': True}
+        return data
+
     class Meta:
         model = Author
         fields = ('id', 'user', 'photo',
                   'company', 'title',
-                  'employed', 'part_time')
+                  'employed', 'part_time', 'anonymous')

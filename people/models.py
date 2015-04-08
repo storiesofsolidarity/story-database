@@ -6,10 +6,13 @@ class Author(models.Model):
     company = models.CharField(max_length=100, null=True, blank=True)
     title = models.CharField(max_length=100, null=True, blank=True)
 
-    photo = models.ImageField(null=True, upload_to="author_photo")
+    photo = models.ImageField(blank=True, null=True, upload_to="author_photo")
 
     employed = models.BooleanField(default=True)
     part_time = models.BooleanField(default=False)
+
+    anonymous = models.BooleanField(default=False, help_text=
+        "Group account like 'Web Anonymous' or 'SMS Anonymous'")
 
     def __unicode__(self):
         if self.title and self.company:
