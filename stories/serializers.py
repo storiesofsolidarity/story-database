@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from models import Location, Story
 
-from people.serializers import AuthorSerializer, UserSerializer
+from people.serializers import AuthorSerializer
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
