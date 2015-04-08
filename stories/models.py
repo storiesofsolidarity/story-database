@@ -1,7 +1,15 @@
 from django.db import models
 from localflavor.us.models import USZipCodeField, USStateField
 
+from django.db.models import Count, Avg
+
 from people.models import Author
+
+class LocationManager(models.Manager):
+    def get_queryset(self):
+        qs = super(LocationManager,self).get_query_set()
+        qs_w_count = qs.annotate( story_grouped_count = Count('story') )
+        return qs_w_count
 
 class Location(models.Model):
     city = models.CharField(max_length=100)
@@ -13,11 +21,14 @@ class Location(models.Model):
     lon = models.FloatField(null=True)
     lat = models.FloatField(null=True)
 
-    # if we decide we need geodjango querying
-    # objects = django.contrib.gis.db.models.GeoManager()
+    objects = LocationManager()
 
     def __unicode__(self):
         return "{}, {}".format(self.city,self.state)
+
+    def story_count(self):
+        return self.story_grouped_count
+    story_count.admin_order_field = 'story_grouped_count'
 
 
 class Story(models.Model):
