@@ -24,5 +24,5 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ('id', 'user', 'photo',
-                  'company', 'title',
+                  'employer', 'occupation',
                   'employed', 'part_time', 'anonymous')
