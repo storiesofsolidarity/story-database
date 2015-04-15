@@ -1,5 +1,5 @@
 from django.db import models
-from localflavor.us.models import USZipCodeField, USStateField
+from localflavor.us.models import USStateField
 
 from django.db.models import Count
 
@@ -14,7 +14,7 @@ class LocationManager(models.Manager):
 class Location(models.Model):
     city = models.CharField(max_length=100)
     state = USStateField(null=True)
-    zipcode = USZipCodeField(null=True)
+    county = models.CharField(max_length=100, null=True, blank=True)
 
     geocoded = models.BooleanField(default=False)
 
