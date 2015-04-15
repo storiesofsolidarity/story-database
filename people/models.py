@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 
 class Author(models.Model):
     user = models.OneToOneField(User)
-    company = models.CharField(max_length=100, null=True, blank=True)
-    title = models.CharField(max_length=100, null=True, blank=True)
+    occupation = models.CharField(max_length=100, null=True, blank=True)
+    employer = models.CharField(max_length=100, null=True, blank=True)
 
     photo = models.ImageField(blank=True, null=True, upload_to="author_photo")
 
