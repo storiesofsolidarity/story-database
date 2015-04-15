@@ -79,7 +79,7 @@ else:
 
 # REST Framework
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ( 'rest_framework.authentication.TokenAuthentication', ),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication', ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 25,
 }
@@ -89,12 +89,12 @@ REST_SESSION_LOGIN = False
 
 # for email-only logins
 # ACCOUNT_AUTHENTICATION_METHOD = 'email'
-# ACCOUNT_EMAIL_REQUIRED = True   
+# ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_USERNAME_REQUIRED = False
 
 AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend", # for admin
-    "allauth.account.auth_backends.AuthenticationBackend", # for rest 
+    "django.contrib.auth.backends.ModelBackend",  # for admin
+    "allauth.account.auth_backends.AuthenticationBackend",  # for rest
 )
 
 # Database

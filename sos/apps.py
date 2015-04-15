@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 from actstream import registry
 
+
 class SoSConfig(AppConfig):
     name = 'sos'
 

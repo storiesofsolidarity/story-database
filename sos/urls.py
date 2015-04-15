@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url(r'^/$', RedirectView.as_view(url='http://storiesofsolidarity.org', permanent=False), name='index'),
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^api/', include(router.urls)), # nice api browser
+    url(r'^api/', include(router.urls)),  # nice api browser
 
     url(r'^api/auth/', include('rest_auth.urls')),
     url(r'^api/auth/registration/', include('rest_auth.registration.urls')),

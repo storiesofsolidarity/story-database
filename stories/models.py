@@ -5,11 +5,13 @@ from django.db.models import Count
 
 from people.models import Author
 
+
 class LocationManager(models.Manager):
     def get_queryset(self):
-        qs = super(LocationManager,self).get_queryset()
-        qs_w_count = qs.annotate( story_grouped_count = Count('story') )
+        qs = super(LocationManager, self).get_queryset()
+        qs_w_count = qs.annotate(story_grouped_count=Count('story'))
         return qs_w_count
+
 
 class Location(models.Model):
     city = models.CharField(max_length=100)
@@ -24,7 +26,7 @@ class Location(models.Model):
     objects = LocationManager()
 
     def __unicode__(self):
-        return "{}, {}".format(self.city,self.state)
+        return "{}, {}".format(self.city, self.state)
 
     def story_count(self):
         return self.story_grouped_count
@@ -51,11 +53,11 @@ class Story(models.Model):
             if self.title:
                 return "{}, by Anonymous".format(self.title)
             else:
-                return "Untitled Story, by Anonymous"      
+                return "Untitled Story, by Anonymous"
         else:
             if self.title:
                 if self.author:
-                    return "{}, by {}".format(self.title,self.author)
+                    return "{}, by {}".format(self.title, self.author)
                 else:
                     return self.title
             else:

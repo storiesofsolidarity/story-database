@@ -9,12 +9,12 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 # Heroku hosted database & cache
-DATABASES['default'] =  dj_database_url.config()
+DATABASES['default'] = dj_database_url.config()
 CACHES = memcacheify()
 
 # Sendgrid email
 EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
-EMAIL_HOST= 'smtp.sendgrid.net'
+EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
@@ -23,7 +23,7 @@ EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allowed host headers
-ALLOWED_HOSTS = ['stories-of-solidarity.herokuapp.com', 'storiesofsolidarity.org','spacedog.xyz',]
+ALLOWED_HOSTS = ['stories-of-solidarity.herokuapp.com', 'storiesofsolidarity.org', 'spacedog.xyz', ]
 CORS_ORIGIN_WHITELIST = ALLOWED_HOSTS
 
 # Share session cookies with frontend

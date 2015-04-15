@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Author(models.Model):
     user = models.OneToOneField(User)
     occupation = models.CharField(max_length=100, null=True, blank=True)
@@ -12,7 +13,7 @@ class Author(models.Model):
     part_time = models.BooleanField(default=False)
 
     anonymous = models.BooleanField(default=False, help_text=
-        "Group account like 'Web Anonymous' or 'SMS Anonymous'")
+            "Group account like 'Web Anonymous' or 'SMS Anonymous'")
 
     def __unicode__(self):
         if self.title and self.company:
@@ -21,6 +22,7 @@ class Author(models.Model):
             return self.user.__unicode__()
         else:
             return "Unnamed Author"
+
 
 class Organizer(models.Model):
     user = models.OneToOneField(User)

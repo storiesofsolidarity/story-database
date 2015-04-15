@@ -3,15 +3,18 @@ from models import Location, Story
 
 from people.serializers import AuthorSerializer
 
+
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = ('id', 'city', 'state', 'zipcode', 'lon', 'lat')
 
+
 class LocationStoriesSerializer(serializers.ModelSerializer):
     story_count = serializers.IntegerField(
         read_only=True
     )
+    
     class Meta:
         model = Location
         fields = ('id', 'city', 'state', 'zipcode', 'lon', 'lat', 'story_count')

@@ -20,6 +20,7 @@ class StoryViewSet(viewsets.ModelViewSet):
                 queryset = queryset.filter(location__city__iexact=city)
         return queryset
 
+
 class LocationStoriesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Location.objects.filter(lat__isnull=False, lon__isnull=False, story_grouped_count__gt=0)
     serializer_class = LocationStoriesSerializer
