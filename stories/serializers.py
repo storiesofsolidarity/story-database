@@ -7,17 +7,17 @@ from people.serializers import AuthorSerializer
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ('id', 'city', 'state', 'zipcode', 'lon', 'lat')
+        fields = ('id', 'city', 'state', 'lon', 'lat')
 
 
 class LocationStoriesSerializer(serializers.ModelSerializer):
     story_count = serializers.IntegerField(
         read_only=True
     )
-    
+
     class Meta:
         model = Location
-        fields = ('id', 'city', 'state', 'zipcode', 'lon', 'lat', 'story_count')
+        fields = ('id', 'city', 'state', 'lon', 'lat', 'story_count')
 
 
 class StorySerializer(serializers.ModelSerializer):
