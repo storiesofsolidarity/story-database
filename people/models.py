@@ -3,16 +3,16 @@ from django.contrib.auth.models import User
 
 
 class UserManager(models.Manager):
-    def get_or_create_user(self, name):
-        if self.user:
-            return (self.user, False)
+    def get_or_create_user(self, **kwargs):
+        user__name = kwargs.pop('user__name')
 
         try:
-            first_name, last_name = name.split(' ')  # simple but stupid
+            first_name, last_name = user__name.split(' ')  # simple but stupid
             # TODO, improve name parsing
         except ValueError:
             first_name = ""
-            last_name = name
+            last_name = user__name
+
         user, new_user = User.objects.get_or_create(first_name=first_name, last_name=last_name)
         if new_user:
             if first_name:
@@ -21,9 +21,8 @@ class UserManager(models.Manager):
                 user.username = last_name
             user.save()
 
-        self.user = user
-        self.save()
-        return (self.user, new_user)
+        kwargs['user'] = user
+        return super(UserManager, self).get_or_create(**kwargs)
 
 
 class AbstractUserBase(models.Model):
@@ -48,8 +47,8 @@ class Author(AbstractUserBase):
                                     "Group account like 'Web Anonymous' or 'SMS Anonymous'")
 
     def __unicode__(self):
-        if self.title and self.company:
-            return "{}, {}, {}".format(self.user, self.title, self.company)
+        if self.occupation and self.employer:
+            return "{}, {}, {}".format(self.user, self.occupation, self.company)
         elif self.user:
             return self.user.__unicode__()
         else:

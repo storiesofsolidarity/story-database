@@ -28,7 +28,7 @@ class Command(BaseCommand):
         with open('stories/fixtures/legacy-stories.json', 'r') as jsonfile:
             stories = json.load(jsonfile)
 
-            n = 0
+            n_s, n_a = (0, 0)
             for data in stories['data']:
                 story = Story(content=data.get('Content'),
                               created_at=data.get('Timestamp'))
@@ -36,15 +36,15 @@ class Command(BaseCommand):
                 # usernames actually stored in legacy story "Title" field
                 story.title = ""
                 if data.get('Title'):
-                    user, new_user = Author.objects.get_or_create_user(data['Title'])
-                    author, new_author = Author.objects.get_or_create(user=user)
+                    author, new_author = Author.objects.get_or_create_user(user__name=data['Title'])
                     if new_author:
+                        n_a = n_a+1
                         author.part_time = bool(data.get('PartTime'))
                         author.employed = bool(data.get('Employed'))
                         author.company = data.get('Workplace')
                         author.title = data.get('JobTitle')
-                        if user.last_name.lower() == "anonymous":
-                                author.anonymous = True
+                        if author.user.last_name.lower() == "anonymous":
+                            author.anonymous = True
 
                         author.save()
 
@@ -59,6 +59,6 @@ class Command(BaseCommand):
                     location.save()
                     story.location = location
                 story.save()
-                n = n+1
+                n_s = n_s+1
 
-            self.stdout.write("imported %d stories" % n)
+            self.stdout.write("imported %d stories by %d authors" % (n_s, n_a))
