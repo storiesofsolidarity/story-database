@@ -39,7 +39,6 @@ class Story(models.Model):
     anonymous = models.BooleanField(default=False)
 
     author = models.ForeignKey(Author, null=True)
-    title = models.CharField(max_length=255)
     location = models.ForeignKey(Location, null=True)
 
     content = models.TextField()
@@ -50,15 +49,6 @@ class Story(models.Model):
 
     def __unicode__(self):
         if self.anonymous:
-            if self.title:
-                return "{}, by Anonymous".format(self.title)
-            else:
-                return "Untitled Story, by Anonymous"
+            return "Story by Anonymous"
         else:
-            if self.title:
-                if self.author:
-                    return "{}, by {}".format(self.title, self.author)
-                else:
-                    return self.title
-            else:
-                return "Untitled Story, by {}".format(self.author)
+            return "Story, by {}".format(self.author)
