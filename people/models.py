@@ -8,6 +8,7 @@ class Author(models.Model):
     employer = models.CharField(max_length=100, null=True, blank=True)
 
     photo = models.ImageField(blank=True, null=True, upload_to="author_photo")
+    sms_number = models.CharField(blank=True, null=True, max_length=15)
 
     employed = models.BooleanField(default=True)
     part_time = models.BooleanField(default=False)
