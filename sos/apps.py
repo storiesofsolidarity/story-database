@@ -2,9 +2,10 @@ from django.apps import AppConfig
 from actstream import registry
 
 
-class SoSConfig(AppConfig):
-    name = 'sos'
+class PeopleConfig(AppConfig):
+    name = 'people'
 
-    def ready(self):
+    def read(self):
         registry.register(self.get_model('Author'))
         registry.register(self.get_model('Organizer'))
+        import people.signals
