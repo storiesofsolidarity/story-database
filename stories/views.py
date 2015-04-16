@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions
+from sos.permissions import AllowAnonymousPostOrReadOnly
 from sos.pagination import LargeResultsSetPagination
 
 from models import Story, Location
@@ -7,9 +8,11 @@ from serializers import StorySerializer, LocationStoriesSerializer
 
 class StoryViewSet(viewsets.ModelViewSet):
     serializer_class = StorySerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (AllowAnonymousPostOrReadOnly, )
+    # allow stories to be added by non-logged in users
 
     def get_queryset(self):
+        # custom filtering by city/state instead of requiring location id
         params = self.request.QUERY_PARAMS
         queryset = Story.objects.filter(display=True)
         state = params.get('state', None)
