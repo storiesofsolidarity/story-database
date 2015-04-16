@@ -33,10 +33,11 @@ class AllowAnonymousPostOrReadOnly(permissions.BasePermission):
             return True
 
         if request.method == "POST":
-            # check for valid CORS domain
-            if request.META['REMOTE_HOST'] in settings.CORS_ORIGIN_WHITELIST:
+            # check request is coming from valid CORS domain
+            # this can be spoofed, but we're just trying to stop spammers not 1337 haxxors
+            if request.META.get('HTTP_ORIGIN') in settings.CORS_ORIGIN_WHITELIST:
                 return True
-            elif settings.DEBUG and request.META['REMOTE_ADDR'] == '127.0.0.1':
+            elif settings.DEBUG and request.META.get('REMOTE_ADDR') == '127.0.0.1':
                 # debug server doesn't provide REMOTE_HOST headers, ensure localhost
                 return True
 
