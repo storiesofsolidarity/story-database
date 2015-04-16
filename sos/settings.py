@@ -50,6 +50,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'sslify.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -70,12 +71,18 @@ ROOT_URLCONF = 'sos.urls'
 WSGI_APPLICATION = 'sos.wsgi.application'
 
 
+# SSL disable
+if DEBUG:
+    SSLIFY_DISABLE = True
+
 # Cross Origin Resource Sharing
 if DEBUG:
     CORS_ORIGIN_ALLOW_ALL = True
 else:
     CORS_ORIGIN_WHITELIST = ALLOWED_HOSTS
     CORS_ALLOW_CREDENTIALS = True
+
+CORS_URLS_REGEX = r'^/api/.*$'
 
 # REST Framework
 REST_FRAMEWORK = {
