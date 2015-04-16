@@ -26,7 +26,7 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 # Allowed host headers
-ALLOWED_HOSTS = ['stories-of-solidarity.herokuapp.com', 'storiesofsolidarity.org', 'spacedog.xyz', ]
+ALLOWED_HOSTS = ['stories-of-solidarity.herokuapp.com', '*.storiesofsolidarity.org', '*.spacedog.xyz', ]
 CORS_ORIGIN_WHITELIST = ALLOWED_HOSTS
 
 # Share session cookies with frontend
