@@ -1,5 +1,6 @@
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sos.settings_production")
+os.environ['HTTPS'] = "on"
 
 from django.core.wsgi import get_wsgi_application
 from dj_static import Cling

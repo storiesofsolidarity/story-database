@@ -19,8 +19,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
 
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+# SSL
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 # Allowed host headers
 ALLOWED_HOSTS = ['stories-of-solidarity.herokuapp.com', 'storiesofsolidarity.org', 'spacedog.xyz', ]
