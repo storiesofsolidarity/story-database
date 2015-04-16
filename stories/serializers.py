@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from models import Location, Story
 
+from people.models import Author
 from people.serializers import AuthorSerializer
 
 
@@ -23,6 +24,26 @@ class LocationStoriesSerializer(serializers.ModelSerializer):
 class StorySerializer(serializers.ModelSerializer):
     author = AuthorSerializer()
     location = LocationSerializer()
+
+    def create(self, validated_data):
+        "Handles nested data and model lookup or creation for author and location."
+
+        initial_data = self.initial_data  # instead of validated_data, which won't include non-named fields
+        name = initial_data.get('name')
+        author, new_author = Author.objects.get_or_create_user(user__name=name)
+        validated_data['author'] = author
+
+        city = initial_data.get('location.city')
+        state = initial_data.get('location.state')
+        if city and state:
+            location, new_location = Location.objects.get_or_create(city=city, state=state)
+            # if new_location:
+            #   location.geocode()
+            #   location.save()
+            validated_data['location'] = location
+
+        story = Story.objects.create(**validated_data)  # here use validated_data which will include new objects
+        return story
 
     class Meta:
         model = Story
