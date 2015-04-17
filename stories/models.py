@@ -53,6 +53,12 @@ class Story(models.Model):
         else:
             return self.content
 
+    def employer(self):
+        if self.author:
+            return self.author.employer
+        else:
+            return None
+
     def __unicode__(self):
         if self.anonymous:
             return "Story by Anonymous"
