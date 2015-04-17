@@ -76,6 +76,21 @@ CORS_ORIGIN_WHITELIST = ALLOWED_HOSTS
 CORS_ALLOW_CREDENTIALS = True
 CORS_URLS_REGEX = r'^/api/.*$'
 
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+
+    # not sure why these are required, but they are showing up
+    # when DefaultRouter.trailing_slash = True to allow consistent URLs
+    'dnt',
+    'cache-control',
+    'accept-encoding'
+)
+
 # REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication', ),
@@ -85,6 +100,7 @@ REST_FRAMEWORK = {
         'sos.permissions.IsAuthorOrReadOnly',
     )
 }
+APPEND_SLASH = True
 
 # REST Authentication
 REST_SESSION_LOGIN = False
