@@ -7,7 +7,7 @@ class UserManager(models.Manager):
         user__name = kwargs.pop('user__name')
 
         try:
-            first_name, last_name = user__name.split(' ')  # simple but stupid
+            first_name, last_name = user__name.split(' ', 1)  # simple but stupid
             # TODO, improve name parsing
         except (ValueError, AttributeError):
             # None or blank, make it Anonymous #N
