@@ -43,9 +43,11 @@ class Story(models.Model):
 
     content = models.TextField()
     display = models.BooleanField(default=True)
+    truncated = models.BooleanField(default=False, help_text="Some legacy stories truncated")
 
     class Meta:
         verbose_name_plural = "stories"
+        ordering = ("-created_at",)
 
     def excerpt(self):
         if len(self.content) > 160:
