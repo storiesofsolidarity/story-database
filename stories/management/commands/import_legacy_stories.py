@@ -33,10 +33,8 @@ class Command(BaseCommand):
                 story = Story(content=data.get('Content'),
                               created_at=data.get('Timestamp'))
 
-                # usernames actually stored in legacy story "Title" field
-                story.title = ""
-                if data.get('Title'):
-                    author, new_author = Author.objects.get_or_create_user(user__name=data['Title'])
+                if data.get('UserName'):
+                    author, new_author = Author.objects.get_or_create_user(user__name=data['UserName'])
                     if new_author:
                         n_a = n_a+1
                         author.part_time = bool(data.get('PartTime'))
