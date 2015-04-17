@@ -27,8 +27,19 @@ class Location(models.Model):
 
     objects = LocationManager()
 
+    #format city, state
+    def city_formatter(self):
+        return ' '.join([p.capitalize() for p in self.city.split()])
+    city_formatter.short_description = "City"
+    city_fmt = property(city_formatter)
+
+    def state_formatter(self):
+        return self.state.upper()
+    state_formatter.short_description = "State"
+    state_fmt = property(state_formatter)
+
     def __unicode__(self):
-        return "{}, {}".format(self.city.capitalize(), self.state.upper())
+        return "{}, {}".format(self.city_fmt, self.state_fmt)
 
     def story_count(self):
         return self.story_grouped_count
