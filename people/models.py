@@ -9,9 +9,11 @@ class UserManager(models.Manager):
         try:
             first_name, last_name = user__name.split(' ')  # simple but stupid
             # TODO, improve name parsing
-        except ValueError:
-            first_name = ""
-            last_name = user__name
+        except (ValueError, AttributeError):
+            # None or blank, make it Anonymous #N
+            first_name = "Anonymous"
+            last_anon = User.objects.filter(first_name=first_name).count()
+            last_name = "#%d" % (last_anon+1,)
 
         user, new_user = User.objects.get_or_create(first_name=first_name, last_name=last_name)
         if new_user:
