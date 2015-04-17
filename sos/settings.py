@@ -156,3 +156,7 @@ STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = 'media'
+
+#Twilio
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
