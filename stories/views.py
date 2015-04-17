@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets
 from sos.permissions import AllowAnonymousPostOrReadOnly
 from sos.pagination import LargeResultsSetPagination
 
@@ -14,7 +14,7 @@ class StoryViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         # custom filtering by city/state instead of requiring location id
         params = self.request.QUERY_PARAMS
-        queryset = Story.objects.filter(display=True)
+        queryset = Story.objects.filter(display=True).order_by('-created_at')
         state = params.get('state', None)
         if state:
             queryset = queryset.filter(location__state__iexact=state)
