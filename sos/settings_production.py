@@ -32,6 +32,10 @@ CORS_ORIGIN_WHITELIST = [
     'spacedog.xyz', 'www.spacedog.xyz', 'spacedogxyz.github.io', 'localhost:9000'
 ]
 
+# Twilio
+#bug w/ django-twilio on heroku, avoid temporarily
+DJANGO_TWILIO_FORGERY_PROTECTION = False
+
 # Share session cookies with frontend
 # SESSION_COOKIE_DOMAIN = '.storiesofsolidarity.org'
 
