@@ -22,8 +22,8 @@ class LocationStoriesSerializer(serializers.ModelSerializer):
 
 
 class StorySerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()
-    location = LocationSerializer()
+    author = AuthorSerializer(required=False)
+    location = LocationSerializer(required=False)
 
     def create(self, validated_data):
         "Handles nested data and model lookup or creation for author and location."
@@ -35,12 +35,15 @@ class StorySerializer(serializers.ModelSerializer):
 
         city = initial_data.get('location.city')
         state = initial_data.get('location.state')
-        if city and state:
+        if (city and state) or state:
             location, new_location = Location.objects.get_or_create(city=city, state=state)
             # if new_location:
             #   location.geocode()
             #   location.save()
             validated_data['location'] = location
+        else:
+            # overwrite the empty dict to avoid validation errors
+            validated_data['location'] = None
 
         story = Story.objects.create(**validated_data)  # here use validated_data which will include new objects
         return story
