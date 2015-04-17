@@ -7,4 +7,10 @@ class LocationAdmin(admin.ModelAdmin):
     list_filter = ('state',)
 
 admin.site.register(Location, LocationAdmin)
-admin.site.register(Story)
+
+
+class StoryAdmin(admin.ModelAdmin):
+    list_display = ('excerpt', 'author', 'created_at')
+    date_filter = ('created_at',)
+
+admin.site.register(Story, StoryAdmin)

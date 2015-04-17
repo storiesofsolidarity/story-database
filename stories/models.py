@@ -47,6 +47,12 @@ class Story(models.Model):
     class Meta:
         verbose_name_plural = "stories"
 
+    def excerpt(self):
+        if len(self.content) > 160:
+            return self.content[:160] + ' ...'
+        else:
+            return self.content
+
     def __unicode__(self):
         if self.anonymous:
             return "Story by Anonymous"
