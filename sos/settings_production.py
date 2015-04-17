@@ -29,7 +29,7 @@ CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = ['stories-of-solidarity.herokuapp.com', 'admin.storiesofsolidarity.org']
 CORS_ORIGIN_WHITELIST = [
     'storiesofsolidarity.org', 'www.storiesofsolidarity.org',
-    'spacedog.xyz', 'www.spacedog.xyz', 'spacedogxyz.github.io', 'localhost:9000'
+    'storiesofsolidarity.github.io', 'localhost:9000'
 ]
 
 # Twilio
