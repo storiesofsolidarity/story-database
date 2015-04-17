@@ -6,6 +6,7 @@ from people.serializers import AuthorSerializer
 
 
 class LocationSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Location
         fields = ('id', 'city', 'state', 'lon', 'lat')
@@ -37,9 +38,9 @@ class StorySerializer(serializers.ModelSerializer):
         state = initial_data.get('location.state')
         if (city and state) or state:
             location, new_location = Location.objects.get_or_create(city=city, state=state)
-            # if new_location:
-            #   location.geocode()
-            #   location.save()
+            if new_location:
+               location.geocode('%s, %s' % (city, state))
+               location.save()
             validated_data['location'] = location
         else:
             # overwrite the empty dict to avoid validation errors

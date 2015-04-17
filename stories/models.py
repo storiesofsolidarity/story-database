@@ -1,7 +1,9 @@
 from django.db import models
 from localflavor.us.models import USStateField
-
 from django.db.models import Count
+import geopy
+from geopy.geocoders import GeoNames
+from geopy.exc import GeopyError
 
 from people.models import Author
 
@@ -26,11 +28,25 @@ class Location(models.Model):
     objects = LocationManager()
 
     def __unicode__(self):
-        return "{}, {}".format(self.city, self.state)
+        return "{}, {}".format(self.city.capitalize(), self.state.upper())
 
     def story_count(self):
         return self.story_grouped_count
     story_count.admin_order_field = 'story_grouped_count'
+
+    def geocode(self, query):
+        geolocator = GeoNames(username="jlevinger", country_bias="USA")
+        location = geolocator.geocode(query)
+        try:
+            self.city = location.raw['toponymName']
+            self.state = location.raw['adminCode1']
+            self.lat = location.latitude
+            self.lon = location.longitude
+            self.geocoded = True
+            self.save()
+            return True
+        except GeopyError:
+            return False
 
 
 class Story(models.Model):
