@@ -6,8 +6,8 @@ from people.serializers import AuthorSerializer
 
 
 class LocationSerializer(serializers.ModelSerializer):
-    city = serializers.CharField(source='city_fmt')
-    state = serializers.CharField(source='state_fmt')
+    city = serializers.CharField(source='city_fmt', allow_blank=True, required=False)
+    state = serializers.CharField(source='state_fmt', allow_blank=True, required=False)
 
     class Meta:
         model = Location
