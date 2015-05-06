@@ -6,6 +6,7 @@ from people.models import Author
 class LocationAdmin(admin.ModelAdmin):
     list_display = ('city_fmt', 'state_fmt', 'story_count')
     list_filter = ('state',)
+    search_fields = ('city',)
 
 admin.site.register(Location, LocationAdmin)
 
@@ -27,8 +28,10 @@ class EmployerFilter(admin.SimpleListFilter):
 
 class StoryAdmin(admin.ModelAdmin):
     list_display = ('excerpt', 'author', 'employer', 'created_at')
-    list_filter = ('truncated', EmployerFilter)
+    list_filter = (EmployerFilter, 'location__state', 'truncated')
     date_hierarchy = 'created_at'
     readonly_fields = ('truncated',)
+    raw_id_fields = ('author', 'location')
+    search_fields = ('location__city', 'author__user__first_name', 'author__user__last_name')
 
 admin.site.register(Story, StoryAdmin)
