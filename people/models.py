@@ -2,34 +2,48 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class UserManager(models.Manager):
+class AnonymousUserManager(models.Manager):
+    def next_anonymous(self):
+        """ If a name isn't provided, find the next Anonymous #N """
+        first_name = "Anonymous"
+        last_anon = User.objects.filter(first_name=first_name).count()
+        last_name = "#%d" % (last_anon+1,)
+        return (first_name, last_name)
+
     def get_or_create_user(self, **kwargs):
+        """ Get_or_create user by name, creating anonymous if necessary """
         user__name = kwargs.pop('user__name')
+        is_anonymous = False
 
-        try:
-            first_name, last_name = user__name.split(' ', 1)  # simple but stupid
-            # TODO, improve name parsing
-        except (ValueError, AttributeError):
-            # None or blank, make it Anonymous #N
-            first_name = "Anonymous"
-            last_anon = User.objects.filter(first_name=first_name).count()
-            last_name = "#%d" % (last_anon+1,)
+        if user__name:
+            try:
+                first_name, last_name = user__name.split(' ', 1)  # simple but stupid
+                # TODO, improve name parsing
+            except (ValueError, AttributeError):
+                # can't split, make first_name blank and last_name as provided
+                first_name, last_name = "", user__name
+        else:
+            # None or blank, make it anonymous
+            first_name, last_name = self.next_anonymous()
+            is_anonymous = True
 
-        user, new_user = User.objects.get_or_create(first_name=first_name, last_name=last_name)
+        if first_name:
+            username = ("{}_{}".format(first_name, last_name)).lower()
+        else:
+            username = last_name
+
+        user, new_user = User.objects.get_or_create(first_name=first_name, last_name=last_name, username=username)
         if new_user:
-            if first_name:
-                user.username = ("{}_{}".format(user.first_name, user.last_name)).lower()
-            else:
-                user.username = last_name
+            user.anonymous = is_anonymous
             user.save()
 
         kwargs['user'] = user
-        return super(UserManager, self).get_or_create(**kwargs)
+        return super(AnonymousUserManager, self).get_or_create(**kwargs)
 
 
 class AbstractUserBase(models.Model):
     user = models.OneToOneField(User)
-    objects = UserManager()
+    objects = AnonymousUserManager()
 
     class Meta:
         abstract = True
