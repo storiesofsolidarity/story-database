@@ -1,1 +1,1 @@
-web: gunicorn sos.wsgi --log-file -
+web: gunicorn sos.wsgi --timeout 120 --keep-alive 5 --log-level info
