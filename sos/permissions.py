@@ -33,6 +33,7 @@ class AllowAnonymousPostOrReadOnly(permissions.BasePermission):
             return True
 
         if request.method == "POST":
+            print "got POST from", request.META.get('HTTP_ORIGIN')
             # check request is coming from valid CORS domain
             # this can be spoofed, but we're just trying to stop spammers not 1337 haxxors
             if request.META.get('HTTP_ORIGIN') in settings.CORS_ORIGIN_WHITELIST:
