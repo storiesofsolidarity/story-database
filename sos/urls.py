@@ -13,7 +13,7 @@ router.register(r'location', LocationStoriesViewSet, base_name="Location")
 router.register(r'author', AuthorViewSet)
 
 urlpatterns = patterns('',
-    url(r'^$', RedirectView.as_view(url='https://storiesofsolidarity.org', permanent=True), name='index'),
+    url(r'^$', RedirectView.as_view(url='https://storiesofsolidarity.org'), name='index'),
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^api/', include(router.urls)),  # nice api browser
