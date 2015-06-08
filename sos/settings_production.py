@@ -26,7 +26,7 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 # Allowed host headers
-ALLOWED_HOSTS = ['stories-of-solidarity.herokuapp.com', 'admin.storiesofsolidarity.org']
+ALLOWED_HOSTS = ['stories-of-solidarity.herokuapp.com', 'app.storiesofsolidarity.org']
 CORS_ORIGIN_WHITELIST = [
     'storiesofsolidarity.org', 'www.storiesofsolidarity.org',
     'storiesofsolidarity.github.io', 'localhost:9000'

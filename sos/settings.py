@@ -23,8 +23,8 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['localhost:9000',
-                 'spacedog.xyz',
-                 'storiesofsolidarity.org']
+                 '*.herokuapp.com',
+                 '*.storiesofsolidarity.org']
 
 # Application definition
 
