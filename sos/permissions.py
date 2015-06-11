@@ -3,6 +3,7 @@ from django.conf import settings
 
 import urlparse
 
+
 class IsAuthorOrReadOnly(permissions.BasePermission):
     """
     Object-level permission to only allow authors of an object to edit it.
@@ -34,7 +35,7 @@ class AllowAnonymousPostOrReadOnly(permissions.BasePermission):
             return True
 
         if request.method == "POST":
-            origin_domain = urlparse.urlparse(request.META.get('HTTP_ORIGIN')).netloc
+            origin_domain = urlparse.urlparse(request.META.get('HTTP_ORIGIN','')).netloc
             # check request is coming from valid CORS domain
             # this can be spoofed, but we're just trying to stop spammers not 1337 haxxors
             if origin_domain in settings.CORS_ORIGIN_WHITELIST:
