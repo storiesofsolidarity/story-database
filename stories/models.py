@@ -1,11 +1,16 @@
 from django.db import models
-from localflavor.us.models import USStateField
 from django.db.models import Count
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+
+from localflavor.us.models import USStateField
+
 import geopy
 from geopy.geocoders import GeoNames
 from geopy.exc import GeopyError
 
 from people.models import Author
+from sos.cache import expire_view_cache
 
 
 class LocationManager(models.Manager):
@@ -93,3 +98,8 @@ class Story(models.Model):
             return "Story by Anonymous"
         else:
             return "Story, by {}".format(self.author)
+
+
+@receiver(post_delete, sender=Story)
+def clear_location_cache(sender, **kwargs):
+    return expire_view_cache('location-list')

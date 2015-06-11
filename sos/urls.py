@@ -8,8 +8,8 @@ from stories.views import StoryViewSet, LocationStoriesViewSet
 from people.views import AuthorViewSet
 
 router = routers.DefaultRouter(trailing_slash=True)
-router.register(r'story', StoryViewSet, base_name="Story")
-router.register(r'location', LocationStoriesViewSet, base_name="Location")
+router.register(r'story', StoryViewSet, base_name="story")
+router.register(r'location', LocationStoriesViewSet, base_name="location")
 router.register(r'author', AuthorViewSet)
 
 urlpatterns = patterns('',
