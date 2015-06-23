@@ -35,6 +35,6 @@ class StoryAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
     readonly_fields = ('truncated',)
     raw_id_fields = ('author', 'location')
-    search_fields = ('location__city', 'author__user__first_name', 'author__user__last_name')
+    search_fields = ('location__city', 'author__user__first_name', 'author__user__last_name', 'content')
 
 admin.site.register(Story, StoryAdmin)
