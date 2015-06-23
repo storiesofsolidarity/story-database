@@ -113,11 +113,18 @@ class Story(models.Model):
         else:
             return None
 
+    def author_display(self):
+        if self.anonymous:
+            return "Anonymous"
+        else:
+            return self.author.user_display()
+    author_display.short_description = "Author"
+
     def __unicode__(self):
         if self.anonymous:
             return "Story by Anonymous"
         else:
-            return "Story, by {}".format(self.author)
+            return "Story, by {}".format(self.author.user_display())
 
 
 @receiver(post_delete, sender=Story)

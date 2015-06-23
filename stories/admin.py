@@ -30,7 +30,7 @@ class EmployerFilter(admin.SimpleListFilter):
 
 
 class StoryAdmin(admin.ModelAdmin):
-    list_display = ('excerpt', 'author', 'employer', 'created_at')
+    list_display = ('excerpt', 'author_display', 'employer', 'anonymous', 'created_at')
     list_filter = (EmployerFilter, 'location__state', 'truncated')
     date_hierarchy = 'created_at'
     readonly_fields = ('truncated',)

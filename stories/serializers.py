@@ -28,6 +28,14 @@ class StorySerializer(serializers.ModelSerializer):
     author = AuthorSerializer(required=False)
     location = LocationSerializer(required=False)
 
+    #abuse to_relationship to hide name for anonymous authors
+    def to_representation(self, instance):
+        data = super(StorySerializer, self).to_representation(instance)
+        if data['anonymous'] or data['author']['anonymous']:
+            name = data.pop('author')
+            return data
+        return data
+
     def create(self, validated_data):
         "Handles nested data and model lookup or creation for author and location."
 
@@ -54,4 +62,4 @@ class StorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Story
         fields = ('id', 'created_at', 'updated_at',
-                  'location', 'content', 'author')
+                  'location', 'content', 'author', 'anonymous')

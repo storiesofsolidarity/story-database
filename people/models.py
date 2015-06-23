@@ -79,11 +79,19 @@ class Author(AbstractUserBase):
     anonymous = models.BooleanField(default=False, help_text=
                                     "Group account like 'Web Anonymous' or 'SMS Anonymous'")
 
+    def user_display(self):
+        if self.anonymous:
+            return "Anonymous"
+        if self.user.first_name and self.user.last_name:
+            return "{} {}".format(self.user.first_name, self.user.last_name)
+        else:
+            return self.user.username
+
     def __unicode__(self):
         if self.occupation and self.employer:
-            return "{}, {}, {}".format(self.user, self.occupation, self.employer)
+            return "{}, {}, {}".format(self.user_display(), self.occupation, self.employer)
         elif self.user:
-            return self.user.__unicode__()
+            return self.user_display()
         else:
             return "Unnamed Author"
 
