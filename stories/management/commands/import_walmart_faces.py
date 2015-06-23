@@ -12,19 +12,19 @@ from unidecode import unidecode
 
 class Command(BaseCommand):
     args = '<filename> --flush'
-    help = """Import a JSON of stories from the prototype site"""
+    help = """Import a JSON of stories from the OurWalmart"""
     option_list = BaseCommand.option_list + (
         make_option('--flush',
                     action='store_true',
                     dest='flush',
                     default=False,
-                    help='Delete all stories before importing walmart'),
+                    help='Delete all stories before importing walmart stories'),
         )
 
     def handle(self, *args, **options):
         if options['flush']:
-            old = Story.objects.all()
-            confirm = raw_input('This will delete all %d existing stories. Are you sure? [y/N] ' % old.count())
+            old = Story.objects.filter(employer__startswith="Walmart")
+            confirm = raw_input('This will delete all %d existing Walmart stories. Are you sure? [y/N] ' % old.count())
             if confirm == 'y':
                 old.delete()
 
