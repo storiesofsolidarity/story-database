@@ -71,7 +71,7 @@ class Command(BaseCommand):
                     print "lookup", zipcode
                     place = zip_lookup.json().get('places', [{}])[0]
 
-                    location, new_location = Location.objects.get_or_create(city=place.get('place name'), state=place.get('state abbreviation'))
+                    location, new_location = Location.objects.get_or_create(city__iexact=place.get('place name'), state=place.get('state abbreviation'))
                     if new_location and place.get('latitude') and place.get('longitude'):
                         location.lat = place.get('latitude')
                         location.lon = place.get('longitude')
