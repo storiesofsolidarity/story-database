@@ -42,7 +42,10 @@ class Location(models.Model):
     city_fmt = property(city_formatter)
 
     def state_formatter(self):
-        return self.state.upper()
+        if self.state:
+            return self.state.upper()
+        else:
+            return ""
     state_formatter.short_description = "State"
     state_fmt = property(state_formatter)
 
@@ -56,6 +59,20 @@ class Location(models.Model):
     def geocode(self, query):
         geolocator = GeoNames(username="jlevinger", country_bias="USA")
         location = geolocator.geocode(query)
+        try:
+            self.city = location.raw['toponymName']
+            self.state = location.raw['adminCode1']
+            self.lat = location.latitude
+            self.lon = location.longitude
+            self.geocoded = True
+            self.save()
+            return True
+        except GeopyError:
+            return False
+
+    def reverse_geocode(self):
+        geolocator = GeoNames(username="jlevinger", country_bias="USA")
+        location = geolocator.reverse("%s, %s" % (self.lat, self.lon), exactly_one=True)
         try:
             self.city = location.raw['toponymName']
             self.state = location.raw['adminCode1']
