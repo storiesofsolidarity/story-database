@@ -34,7 +34,10 @@ class Location(models.Model):
 
     #format city, state
     def city_formatter(self):
-        return ' '.join([p.capitalize() for p in self.city.split()])
+        if self.city:
+            return ' '.join([p.capitalize() for p in self.city.split()])
+        else:
+            return ""
     city_formatter.short_description = "City"
     city_fmt = property(city_formatter)
 
