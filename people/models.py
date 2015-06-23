@@ -12,29 +12,46 @@ class AnonymousUserManager(models.Manager):
 
     def get_or_create_user(self, **kwargs):
         """ Get_or_create user by name, creating anonymous if necessary """
-        user__name = kwargs.pop('user__name')
+        user__name = kwargs.pop('user__name', None)
+        first_name = kwargs.pop('first_name', None)
+        last_name = kwargs.pop('last_name', None)
+        email = kwargs.pop('email', '')
         is_anonymous = False
 
-        if user__name:
+        if first_name and last_name:
+            pass
+        elif user__name:
             try:
                 first_name, last_name = user__name.split(' ', 1)  # simple but stupid
+                first_name = first_name.strip()
+                last_name = last_name.strip()
                 # TODO, improve name parsing
             except (ValueError, AttributeError):
                 # can't split, make first_name blank and last_name as provided
                 first_name, last_name = "", user__name
+        elif email:
+            # use email address before domain
+            last_name, domain = email.split('@', 1)
+            first_name = ""
         else:
             # None or blank, make it anonymous
             first_name, last_name = self.next_anonymous()
             is_anonymous = True
 
         if first_name:
-            username = ("{}_{}".format(first_name, last_name)).lower()
+            first_last = u"{}_{}".format(first_name.replace(' ', '_'), last_name.replace(' ', '_'))
+            username = first_last.lower()
         else:
-            username = last_name
+            username = last_name.lower()
 
-        user, new_user = User.objects.get_or_create(first_name=first_name, last_name=last_name, username=username)
+        username = username.replace('__', '_').replace('.', '')
+
+        user, new_user = User.objects.get_or_create(username=username)
         if new_user:
+            user.first_name = first_name
+            user.last_name = last_name
             user.anonymous = is_anonymous
+            user.email = email
             user.save()
 
         kwargs['user'] = user
@@ -64,7 +81,7 @@ class Author(AbstractUserBase):
 
     def __unicode__(self):
         if self.occupation and self.employer:
-            return "{}, {}, {}".format(self.user, self.occupation, self.company)
+            return "{}, {}, {}".format(self.user, self.occupation, self.employer)
         elif self.user:
             return self.user.__unicode__()
         else:
