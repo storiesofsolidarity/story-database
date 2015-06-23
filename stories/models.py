@@ -57,7 +57,7 @@ class Location(models.Model):
     story_count.admin_order_field = 'story_grouped_count'
 
     def geocode(self, query):
-        geolocator = GeoNames(username="jlevinger", country_bias="USA")
+        geolocator = GeoNames(username="jlevinger", country_bias="USA", timeout=5)
         location = geolocator.geocode(query)
         try:
             self.city = location.raw['toponymName']
@@ -71,7 +71,7 @@ class Location(models.Model):
             return False
 
     def reverse_geocode(self):
-        geolocator = GeoNames(username="jlevinger", country_bias="USA")
+        geolocator = GeoNames(username="jlevinger", country_bias="USA", timeout=5)
         location = geolocator.reverse("%s, %s" % (self.lat, self.lon), exactly_one=True)
         try:
             self.city = location.raw['toponymName']
