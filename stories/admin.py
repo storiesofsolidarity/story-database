@@ -16,8 +16,11 @@ class EmployerFilter(admin.SimpleListFilter):
     parameter_name = 'employer'
 
     def lookups(self, request, model_admin):
-        employers = set([a.employer.split(' ', 1)[0] for a in Author.objects.all()])
-        return [(str(c), str(c)) for c in employers if c]
+        employer_set = set()
+        for a in Author.objects.all():
+            if a.employer:
+                employer_set.add(a.employer.split(' ', 1)[0])
+        return [(str(c), str(c)) for c in employer_set if c]
 
     def queryset(self, request, queryset):
         if self.value() or self.value() == 'None':
