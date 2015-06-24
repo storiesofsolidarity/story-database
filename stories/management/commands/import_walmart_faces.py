@@ -5,7 +5,7 @@ from datetime import datetime
 from stories.models import Story, Location
 from people.models import Author
 
-import codecs
+import fileinput, tempfile
 import json
 import requests
 from unidecode import unidecode
@@ -28,7 +28,15 @@ class Command(BaseCommand):
             if confirm == 'y':
                 old.delete()
 
-        with codecs.open('stories/fixtures/walmart-faces.json', 'r', encoding='utf-8') as jsonfile:
+        # get input_file from stdin
+        input_file = fileinput.input(args)
+        temp_file = tempfile.TemporaryFile()
+        # save to temp storage for json parsing
+        for line in input_file:
+            temp_file.write(line)
+        temp_file.seek(0)
+
+        with temp_file as jsonfile:
             stories = json.load(jsonfile)
 
             n_s, n_a, n_l = (0, 0, 0)

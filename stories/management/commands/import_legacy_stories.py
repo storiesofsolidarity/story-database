@@ -5,6 +5,7 @@ from datetime import datetime
 from stories.models import Story, Location
 from people.models import Author
 
+import fileinput, tempfile
 import json
 
 
@@ -26,7 +27,15 @@ class Command(BaseCommand):
             if confirm == 'y':
                 old.delete()
 
-        with open('stories/fixtures/legacy-stories.json', 'r') as jsonfile:
+        # get input_file from stdin
+        input_file = fileinput.input(args)
+        temp_file = tempfile.TemporaryFile()
+        # save to temp storage for json parsing
+        for line in input_file:
+            temp_file.write(line)
+        temp_file.seek(0)
+
+        with temp_file as jsonfile:
             stories = json.load(jsonfile)
 
             n_s, n_a = (0, 0)
