@@ -31,9 +31,15 @@ class Command(BaseCommand):
         with codecs.open('stories/fixtures/walmart-faces.json', 'r', encoding='utf-8') as jsonfile:
             stories = json.load(jsonfile)
 
-            n_s, n_a = (0, 0)
+            n_s, n_a, n_l = (0, 0, 0)
             for data in stories:
-                story = Story(content=data.get('story'))
+                try:
+                    story, new_story = Story.objects.get_or_create(content=data.get('story'))
+                except Story.MultipleObjectsReturned:
+                    duplicates = Story.objects.filter(content=data.get('story'))
+                    duplicates.delete()
+
+                    story = Story(content=data.get('story'))
 
                 first_name = unidecode(data.get('fname'))
                 last_name = unidecode(data.get('lname'))
@@ -77,6 +83,9 @@ class Command(BaseCommand):
                         location.lon = place.get('longitude')
                         location.geocoded = True
                         location.save()
+
+                        n_l = n_l+1
+
                     story.location = location
                 story.save()
 
@@ -86,6 +95,7 @@ class Command(BaseCommand):
 
                 story.save()
 
-                n_s = n_s+1
+                if new_story:
+                    n_s = n_s+1
 
-            self.stdout.write("imported %d stories by %d authors" % (n_s, n_a))
+            self.stdout.write("imported %d stories by %d authors in %d locations" % (n_s, n_a, n_l))
