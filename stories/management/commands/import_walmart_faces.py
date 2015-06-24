@@ -79,6 +79,8 @@ class Command(BaseCommand):
 
                     location, new_location = Location.objects.get_or_create(city__iexact=place.get('place name'), state=place.get('state abbreviation'))
                     if new_location and place.get('latitude') and place.get('longitude'):
+                        location.city = place.get('place name')
+                        location.state = place.get('state abbreviation')
                         location.lat = place.get('latitude')
                         location.lon = place.get('longitude')
                         location.geocoded = True
