@@ -76,13 +76,35 @@ class Command(BaseCommand):
                     zip_lookup = requests.get("http://api.zippopotam.us/us/"+zipcode)
                     print "lookup", zipcode
                     place = zip_lookup.json().get('places', [{}])[0]
+                    city = place.get('place name')
+                    state = place.get('state abbreviation')
+                    lat, lon = place.get('latitude'), place.get('longitude')
 
-                    location, new_location = Location.objects.get_or_create(city__iexact=place.get('place name'), state=place.get('state abbreviation'))
-                    if new_location and place.get('latitude') and place.get('longitude'):
-                        location.city = place.get('place name')
-                        location.state = place.get('state abbreviation')
-                        location.lat = place.get('latitude')
-                        location.lon = place.get('longitude')
+                    try:
+                        location, new_location = Location.objects.get_or_create(city__iexact=city, state=state)
+                    except Location.MultipleObjectsReturned:
+                        duplicate_locations = Location.objects.filter(city__iexact=city, state=state)
+                        stories_at_location = duplicate_locations.values_list('story', flat=True)
+                        duplicate_locations.delete()
+
+                        location = Location(city=city, state=state)
+                        location.save()
+
+                        for reset_id in stories_at_location:
+                            try:
+                                reset_story = Story.objects.get(id=reset_id)
+                                reset_story.location = location
+                                reset_story.save()
+                            except Story.DoesNotExist:
+                                pass
+
+                        new_location = True
+                        
+                    if new_location and lat and lon:
+                        location.city = city
+                        location.state = state
+                        location.lat = lat
+                        location.lon = lon
                         location.geocoded = True
                         location.save()
 
