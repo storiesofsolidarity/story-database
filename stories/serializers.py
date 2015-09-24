@@ -14,6 +14,15 @@ class LocationSerializer(serializers.ModelSerializer):
         fields = ('id', 'city', 'state', 'lon', 'lat')
 
 
+class StateStoriesSerializer(serializers.ModelSerializer):
+    story_count = serializers.IntegerField(read_only=True, source='id__count')
+    state = serializers.CharField(source='location__state')
+
+    class Meta:
+        model = Location
+        fields = ('id', 'state', 'story_count')
+
+
 class LocationStoriesSerializer(serializers.ModelSerializer):
     story_count = serializers.IntegerField(read_only=True)
     city = serializers.CharField(source='city_fmt')

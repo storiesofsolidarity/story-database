@@ -1,9 +1,11 @@
+from django.db.models import Count
+
 from rest_framework import viewsets
 from sos.permissions import AllowAnonymousPostOrReadOnly
 from sos.pagination import LargeResultsSetPagination
 
 from models import Story, Location
-from serializers import StorySerializer, LocationStoriesSerializer
+from serializers import StorySerializer, LocationStoriesSerializer, StateStoriesSerializer
 
 
 class StoryViewSet(viewsets.ModelViewSet):
@@ -22,6 +24,14 @@ class StoryViewSet(viewsets.ModelViewSet):
             if city:
                 queryset = queryset.filter(location__city__iexact=city)
         return queryset
+
+
+class StateStoriesViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = (Story.objects.filter(location__isnull=False)
+        .values('location__state')
+        .annotate(Count('id', distinct=True))
+        .order_by())
+    serializer_class = StateStoriesSerializer
 
 
 class LocationStoriesViewSet(viewsets.ReadOnlyModelViewSet):
