@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from models import Location, Story
 
+from localflavor.us.us_states import US_STATES
+
 from people.models import Author
 from people.serializers import AuthorSerializer
 
@@ -15,12 +17,20 @@ class LocationSerializer(serializers.ModelSerializer):
 
 
 class StateStoriesSerializer(serializers.ModelSerializer):
+    abbr = serializers.CharField(source='location__state')
+    name = serializers.SerializerMethodField('state_full')
     story_count = serializers.IntegerField(read_only=True, source='id__count')
-    state = serializers.CharField(source='location__state')
+    
+    def state_full(self, obj):
+        abbr = obj.get('location__state')
+        if abbr:
+            return dict(US_STATES)[abbr]
+        else:
+            return ""
 
     class Meta:
         model = Location
-        fields = ('id', 'state', 'story_count')
+        fields = ('id', 'abbr', 'name', 'story_count')
 
 
 class LocationStoriesSerializer(serializers.ModelSerializer):
