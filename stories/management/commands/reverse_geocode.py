@@ -12,7 +12,12 @@ class Command(BaseCommand):
                                      .filter((Q(county__isnull=True) | Q(county='')))
         print ungeocoded.count(), "locations to reverse geocode"
         for (index, location) in enumerate(ungeocoded):
-            success = location.reverse_geocode()
+            try:
+                success = location.reverse_geocode()
+            except Exception,e:
+                print index," failure", e
+                location.geocoded = False
+                location.save()
             if success:
                 print index, "geocoded", location
             else:
