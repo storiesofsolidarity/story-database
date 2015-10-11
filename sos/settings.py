@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['localhost:9000',
 # Application definition
 
 INSTALLED_APPS = (
+    'raven.contrib.django.raven_compat',
     'wpadmin',
     'django.contrib.admin',
     'django.contrib.auth',
