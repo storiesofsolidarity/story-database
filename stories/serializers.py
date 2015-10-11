@@ -20,7 +20,7 @@ class StateStoriesSerializer(serializers.ModelSerializer):
     abbr = serializers.CharField(source='location__state')
     name = serializers.SerializerMethodField('state_full')
     story_count = serializers.IntegerField(read_only=True, source='id__count')
-    
+
     def state_full(self, obj):
         abbr = obj.get('location__state')
         if abbr:
@@ -31,6 +31,15 @@ class StateStoriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = ('id', 'abbr', 'name', 'story_count')
+
+
+class CountyStoriesSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='location__county')
+    story_count = serializers.IntegerField(read_only=True, source='id__count')
+
+    class Meta:
+        model = Location
+        fields = ('id', 'name', 'story_count')
 
 
 class LocationStoriesSerializer(serializers.ModelSerializer):

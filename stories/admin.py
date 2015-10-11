@@ -4,9 +4,9 @@ from people.models import Author
 
 
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ('city_fmt', 'state_fmt', 'story_count')
+    list_display = ('city_fmt', 'county', 'state_fmt', 'story_count')
     list_filter = ('state',)
-    search_fields = ('city',)
+    search_fields = ('city', 'county')
 
 admin.site.register(Location, LocationAdmin)
 
