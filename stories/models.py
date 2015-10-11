@@ -20,12 +20,12 @@ class LocationManager(models.Manager):
 
 
 class Location(models.Model):
-    city = models.CharField(max_length=100, blank=True, null=True)
     state = USStateField(blank=True, null=True)
     county = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=100, blank=True, null=True)
+    zipcode = models.CharField(max_length=5, null=True, blank=True)
 
     geocoded = models.BooleanField(default=False)
-
     lon = models.FloatField(blank=True, null=True)
     lat = models.FloatField(blank=True, null=True)
 
