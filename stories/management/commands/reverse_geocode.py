@@ -16,8 +16,7 @@ class Command(BaseCommand):
                 success = location.reverse_geocode()
             except Exception,e:
                 print index," failure", e
-                location.geocoded = False
-                location.save()
+                continue
             if success:
                 print index, "geocoded", location
             else:
