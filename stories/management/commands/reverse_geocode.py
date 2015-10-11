@@ -5,16 +5,19 @@ from stories.models import Location
 
 
 class Command(BaseCommand):
-    help = """Reverse geocode locations to City / State"""
+    help = """Reverse geocode locations from lat/lon to city/county/state"""
 
     def handle(self, *args, **options):
         ungeocoded = Location.objects.filter(lat__isnull=False, lon__isnull=False) \
-                                     .filter((Q(city__isnull=True) | Q(city='')))
+                                     .filter((Q(county__isnull=True) | Q(county='')))
         print ungeocoded.count(), "locations to reverse geocode"
-        for location in ungeocoded:
+        for (index, location) in enumerate(ungeocoded):
             success = location.reverse_geocode()
-            if not success:
-                print "failed to geocode", location
+            if success:
+                print index, "geocoded", location
+            else:
+                print index, "failed to geocode", location
                 location.geocoded = False
                 location.save()
+
         print "done"

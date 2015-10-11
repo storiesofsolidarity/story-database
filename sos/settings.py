@@ -162,6 +162,9 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = 'media'
 
-#Twilio
+# Twilio
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+
+# Mapzen
+MAPZEN_KEY = 'search-0w-fs0s'

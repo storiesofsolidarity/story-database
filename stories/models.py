@@ -1,13 +1,12 @@
+import requests
+
+from django.conf import settings
 from django.db import models
 from django.db.models import Count
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
 from localflavor.us.models import USStateField
-
-import geopy
-from geopy.geocoders import GeoNames
-from geopy.exc import GeopyError
 
 from people.models import Author
 from sos.cache import expire_view_cache
@@ -57,31 +56,43 @@ class Location(models.Model):
     story_count.admin_order_field = 'story_grouped_count'
 
     def geocode(self, query):
-        geolocator = GeoNames(username="jlevinger", country_bias="USA", timeout=5)
-        location = geolocator.geocode(query)
+        payload = {
+            'api_key': settings.MAPZEN_KEY,
+            'boundary.country': 'USA',  # bias search response
+            'text': query
+        }
+        r = requests.get('https://search.mapzen.com/v1/search', params=payload)
         try:
-            self.city = location.raw['toponymName']
-            self.state = location.raw['adminCode1']
-            self.lat = location.latitude
-            self.lon = location.longitude
+            match = r.json()['features'][0]
+            self.zipcode = match['properties'].get('postalcode')
+            self.city = match['properties'].get('locality')
+            self.county = match['properties'].get('county')
+            self.state = match['properties'].get('region_a')
             self.geocoded = True
             self.save()
             return True
-        except GeopyError:
+        except (ValueError, IndexError):
             return False
 
     def reverse_geocode(self):
-        geolocator = GeoNames(username="jlevinger", country_bias="USA", timeout=5)
-        location = geolocator.reverse("%s, %s" % (self.lat, self.lon), exactly_one=True)
+        payload = {
+            'api_key': settings.MAPZEN_KEY,
+            'point.lat': self.lat,
+            'point.lon': self.lon,
+            'layers': 'address',
+            'size': 1,
+        }
+        r = requests.get('https://search.mapzen.com/v1/reverse', params=payload)
         try:
-            self.city = location.raw['toponymName']
-            self.state = location.raw['adminCode1']
-            self.lat = location.latitude
-            self.lon = location.longitude
+            match = r.json()['features'][0]
+            self.zipcode = match['properties'].get('postalcode')
+            self.city = match['properties'].get('locality')
+            self.county = match['properties'].get('county')
+            self.state = match['properties'].get('region_a')
             self.geocoded = True
             self.save()
             return True
-        except GeopyError:
+        except (ValueError, IndexError):
             return False
 
 
