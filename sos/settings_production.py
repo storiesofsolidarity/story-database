@@ -52,7 +52,4 @@ import raven
 
 RAVEN_CONFIG = {
     'dsn': 'https://32e87c2362874c5aae24477af20b5fe0:ef56f3206cef406fa063d4934e3a883a@app.getsentry.com/54639',
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
-    'release': raven.fetch_git_sha(os.path.dirname(__file__)),
 }
