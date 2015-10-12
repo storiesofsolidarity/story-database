@@ -4,7 +4,8 @@ from django.contrib import admin
 
 from rest_framework import routers
 
-from stories.views import StoryViewSet, StateStoriesViewSet, CountyStoriesViewSet, LocationStoriesViewSet
+from stories.views import (StoryViewSet, LocationStoriesViewSet,
+    StateStoriesViewSet, CountyStoriesViewSet, ZipcodeStoriesViewSet)
 from people.views import AuthorViewSet
 
 router = routers.DefaultRouter(trailing_slash=True)
@@ -12,6 +13,7 @@ router.register(r'story', StoryViewSet, base_name="story")
 router.register(r'state', StateStoriesViewSet, base_name="state")
 router.register(r'county', CountyStoriesViewSet, base_name="county")
 router.register(r'location', LocationStoriesViewSet, base_name="location")
+router.register(r'zipcode', ZipcodeStoriesViewSet, base_name="zipcode")
 router.register(r'author', AuthorViewSet)
 
 urlpatterns = patterns('',

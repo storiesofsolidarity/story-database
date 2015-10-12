@@ -42,6 +42,16 @@ class CountyStoriesSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'story_count')
 
 
+class ZipcodeStoriesSerializer(serializers.ModelSerializer):
+    story_count = serializers.IntegerField(read_only=True, source='id__count')
+    zipcode = serializers.CharField(source='location__zipcode')
+
+    class Meta:
+        model = Location
+        fields = ('id', 'zipcode', 'story_count')
+
+
+# TO REMOVE
 class LocationStoriesSerializer(serializers.ModelSerializer):
     story_count = serializers.IntegerField(read_only=True)
     city = serializers.CharField(source='city_fmt')
