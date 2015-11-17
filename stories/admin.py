@@ -4,7 +4,7 @@ from people.models import Author
 
 
 class LocationAdmin(admin.ModelAdmin):
-    list_display = ('zipcode', 'city_fmt', 'county', 'state_fmt', 'story_count')
+    list_display = ('zipcode', 'city_fmt', 'county_fmt', 'state_fmt', 'story_count')
     list_filter = ('state',)
     search_fields = ('zipcode', 'city', 'county')
 

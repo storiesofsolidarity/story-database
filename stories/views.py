@@ -30,7 +30,7 @@ class StoryViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(location__state__iexact=state)
             county = params.get('county', None)
             if county:
-                queryset = queryset.filter(location__county__iexact=county)
+                queryset = queryset.filter(location__county__startswith=county)
             city = params.get('city', None)
             if city:
                 queryset = queryset.filter(location__city__iexact=city)

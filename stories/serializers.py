@@ -10,10 +10,11 @@ from people.serializers import AuthorSerializer
 class LocationSerializer(serializers.ModelSerializer):
     city = serializers.CharField(source='city_fmt', allow_blank=True, required=False)
     state = serializers.CharField(source='state_fmt', allow_blank=True, required=False)
+    county = serializers.CharField(source='county_fmt', allow_blank=True, required=False)
 
     class Meta:
         model = Location
-        fields = ('id', 'city', 'state', 'lon', 'lat')
+        fields = ('id', 'city', 'county', 'state', 'lon', 'lat')
 
 
 class StateStoriesSerializer(serializers.ModelSerializer):

@@ -31,7 +31,7 @@ class Location(models.Model):
 
     objects = LocationManager()
 
-    #format city, state
+    #format city, county, state
     def city_formatter(self):
         if self.city:
             return ' '.join([p.capitalize() for p in self.city.split()])
@@ -47,6 +47,14 @@ class Location(models.Model):
             return ""
     state_formatter.short_description = "State"
     state_fmt = property(state_formatter)
+
+    def county_formatter(self):
+        if self.county:
+            return self.county.replace(' County', '')
+        else:
+            return ""
+    county_formatter.short_description = "County"
+    county_fmt = property(county_formatter)
 
     def __unicode__(self):
         return "{}, {}".format(self.city_fmt, self.state_fmt)
