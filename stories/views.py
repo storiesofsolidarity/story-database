@@ -85,6 +85,20 @@ class ZipcodeStoriesViewSet(viewsets.ReadOnlyModelViewSet):
             .order_by())
 
 
+class SearchStoriesViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = StorySerializer
+
+    def get_queryset(self):
+        # custom filtering by content
+        params = self.request.QUERY_PARAMS
+        queryset = Story.objects.filter(display=True).order_by('-created_at')
+        content = params.get('content', None)
+        if content:
+            queryset = queryset.filter(content__icontains=content)
+
+        return queryset
+
+
 # TO REMOVE
 class LocationStoriesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Location.objects.filter(lat__isnull=False, lon__isnull=False, story_grouped_count__gt=0)
