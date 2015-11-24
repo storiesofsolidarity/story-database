@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.views.generic.base import RedirectView
 from django.contrib import admin
@@ -28,4 +29,7 @@ urlpatterns = patterns('',
     url(r'^sms/', include('sms.urls')),  # post via sms
     url(r'^api/activity/', include('actstream.urls'))
 )
+if settings.DEBUG:
+    urlpatterns.append(url(r'^media/(?P<path>.*)$', 'django.views.static.serve',
+    	{'document_root': settings.MEDIA_ROOT}))
 admin.site.site_header = 'Stories of Solidarity Admin'

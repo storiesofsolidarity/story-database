@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
     'allauth',
     'allauth.account',
     'rest_framework',
@@ -169,3 +170,8 @@ TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 
 # Mapzen
 MAPZEN_KEY = 'search-0w-fs0s'
+
+# Amazon S3
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_STORAGE_BUCKET_NAME = "storiesofsolidarity.org"
+AWS_QUERYSTRING_AUTH = False

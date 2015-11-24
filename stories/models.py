@@ -113,6 +113,7 @@ class Story(models.Model):
     location = models.ForeignKey(Location, null=True)
 
     content = models.TextField()
+    photo = models.ImageField(upload_to='photos', blank=True, null=True)
     display = models.BooleanField(default=True)
     truncated = models.BooleanField(default=False, help_text="Some legacy stories truncated")
 

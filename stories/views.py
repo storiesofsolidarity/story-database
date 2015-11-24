@@ -1,6 +1,7 @@
 from django.db.models import Count
 
 from rest_framework import viewsets
+from rest_framework.parsers import FormParser, MultiPartParser
 from sos.permissions import AllowAnonymousPostOrReadOnly
 from sos.pagination import MediumResultsSetPagination, LargeResultsSetPagination
 
@@ -16,6 +17,8 @@ class StoryViewSet(viewsets.ModelViewSet):
     serializer_class = StorySerializer
     permission_classes = (AllowAnonymousPostOrReadOnly, )
     # allow stories to be added by non-logged in users
+    parser_classes = (FormParser, MultiPartParser)
+    # handle multipart form upload for photos
 
     def get_queryset(self):
         # custom filtering by location state/county/city/zipcode instead of requiring id

@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import serializers
 from models import Location, Story
 
@@ -66,6 +67,13 @@ class LocationStoriesSerializer(serializers.ModelSerializer):
 class StorySerializer(serializers.ModelSerializer):
     author = AuthorSerializer(required=False)
     location = LocationSerializer(required=False)
+    photo = serializers.SerializerMethodField('get_photo_url')
+
+    def get_photo_url(self, obj):
+        if obj.photo:
+            return '%s%s' % (settings.MEDIA_URL, obj.photo)
+        else:
+            return ''
 
     #abuse to_relationship to hide name for anonymous authors
     def to_representation(self, instance):
@@ -101,4 +109,4 @@ class StorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Story
         fields = ('id', 'created_at', 'updated_at',
-                  'location', 'content', 'author', 'anonymous')
+                  'location', 'content', 'photo', 'author', 'anonymous')
