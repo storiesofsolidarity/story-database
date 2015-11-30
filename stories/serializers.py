@@ -8,6 +8,7 @@ from people.models import Author
 from people.serializers import AuthorSerializer
 
 
+# to remove
 class LocationSerializer(serializers.ModelSerializer):
     city = serializers.CharField(source='city_fmt', allow_blank=True, required=False)
     state = serializers.CharField(source='state_fmt', allow_blank=True, required=False)
@@ -15,7 +16,7 @@ class LocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = ('id', 'city', 'county', 'state', 'lon', 'lat')
+        fields = ('id', 'zipcode', 'city', 'county', 'state', 'lon', 'lat')
 
 
 class StateStoriesSerializer(serializers.ModelSerializer):
@@ -53,7 +54,6 @@ class ZipcodeStoriesSerializer(serializers.ModelSerializer):
         fields = ('id', 'zipcode', 'story_count')
 
 
-# TO REMOVE
 class LocationStoriesSerializer(serializers.ModelSerializer):
     story_count = serializers.IntegerField(read_only=True)
     city = serializers.CharField(source='city_fmt')
@@ -61,7 +61,7 @@ class LocationStoriesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = ('id', 'city', 'state', 'lon', 'lat', 'story_count')
+        fields = ('id', 'zipcode', 'city', 'state', 'lon', 'lat', 'story_count')
 
 
 class StorySerializer(serializers.ModelSerializer):

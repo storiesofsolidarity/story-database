@@ -70,22 +70,26 @@ class CountyStoriesViewSet(viewsets.ReadOnlyModelViewSet):
             .order_by())
 
 
-class ZipcodeStoriesViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = ZipcodeStoriesSerializer
+class LocationStoriesViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = LocationStoriesSerializer
     pagination_class = LargeResultsSetPagination
 
     def get_queryset(self):
-        # custom filtering by city/state instead of requiring location id
+        # custom filtering by location state/county/city/zipcode instead of requiring id
         params = self.request.QUERY_PARAMS
-        queryset = Story.objects.filter(location__isnull=False)
+        queryset = Location.objects.filter(lat__isnull=False, lon__isnull=False, story_grouped_count__gt=0)
+        state = params.get('state', None)
         state_name = params.get('state_name', None)
         if state_name:
             state = STATE_ABBRS.get(state_name)  # location.state field stores 2-char abbreviation
-            queryset = queryset.filter(location__state__iexact=state)
 
-        return (queryset.values('location__zipcode')
-            .annotate(Count('id', distinct=True))
-            .order_by())
+        if state:
+            queryset = queryset.filter(state__iexact=state)
+            county = params.get('county', None)
+            if county:
+                queryset = queryset.filter(county__startswith=county)
+
+        return queryset.order_by('-story_grouped_count')
 
 
 class SearchStoriesViewSet(viewsets.ReadOnlyModelViewSet):
@@ -100,10 +104,3 @@ class SearchStoriesViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(content__icontains=content)
 
         return queryset
-
-
-# TO REMOVE
-class LocationStoriesViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Location.objects.filter(lat__isnull=False, lon__isnull=False, story_grouped_count__gt=0)
-    serializer_class = LocationStoriesSerializer
-    pagination_class = LargeResultsSetPagination
