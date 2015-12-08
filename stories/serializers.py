@@ -71,8 +71,8 @@ class StorySerializer(serializers.ModelSerializer):
     content = serializers.CharField(error_messages={'required': "Share a story before submitting"})
 
     def get_photo_url(self, obj):
-        if obj.photo:
-            return '%s%s' % (settings.MEDIA_URL, obj.photo)
+        if obj.photo and obj.photo.url:
+            return obj.photo.url
         else:
             return ''
 
