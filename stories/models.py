@@ -72,13 +72,16 @@ class Location(models.Model):
         r = requests.get('https://search.mapzen.com/v1/search', params=payload)
         try:
             match = r.json()['features'][0]
-            self.zipcode = match['properties'].get('postalcode')[:5]
-            self.city = match['properties'].get('locality')
-            self.county = match['properties'].get('county')
-            self.state = match['properties'].get('region_a')
-            self.geocoded = True
-            self.save()
-            return True
+            if match:
+                self.zipcode = match['properties'].get('postalcode', '')[:5]
+                self.city = match['properties'].get('locality')
+                self.county = match['properties'].get('county')
+                self.state = match['properties'].get('region_a')
+                self.geocoded = True
+                self.save()
+                return True
+            else:
+                return False
         except (ValueError, IndexError):
             return False
 
