@@ -51,6 +51,7 @@ STATICFILES_DIRS = (
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+MEDIA_ROOT = 'storiesofsolidarity.s3-website-us-west-2.amazonaws.com'
 
 import raven
 
