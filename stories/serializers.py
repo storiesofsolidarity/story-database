@@ -103,6 +103,10 @@ class StorySerializer(serializers.ModelSerializer):
             # overwrite the empty dict to avoid validation errors
             validated_data['location'] = None
 
+        # save the photo
+        if 'photo' in initial_data:
+            validated_data['photo'] = initial_data['photo']
+
         story = Story.objects.create(**validated_data)  # here use validated_data which will include new objects
         return story
 
