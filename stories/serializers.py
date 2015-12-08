@@ -68,6 +68,7 @@ class StorySerializer(serializers.ModelSerializer):
     author = AuthorSerializer(required=False)
     location = LocationSerializer(required=False)
     photo = serializers.SerializerMethodField('get_photo_url')
+    content = serializers.CharField(error_messages={'required': "Share a story before submitting"})
 
     def get_photo_url(self, obj):
         if obj.photo:
