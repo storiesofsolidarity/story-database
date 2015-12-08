@@ -173,5 +173,5 @@ MAPZEN_KEY = 'search-0w-fs0s'
 
 # Amazon S3
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-AWS_STORAGE_BUCKET_NAME = "storiesofsolidarity.org"
+AWS_STORAGE_BUCKET_NAME = "storiesofsolidarity"
 AWS_QUERYSTRING_AUTH = False
