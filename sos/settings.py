@@ -24,7 +24,8 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['localhost:9000',
                  '*.herokuapp.com',
-                 '*.storiesofsolidarity.org']
+                 '*.storiesofsolidarity.org',
+                 '*.proxy-live.transifex.com']
 
 # Application definition
 
