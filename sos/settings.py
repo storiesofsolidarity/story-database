@@ -80,11 +80,13 @@ WSGI_APPLICATION = 'sos.wsgi.application'
 
 # Cross Origin Resource Sharing
 CORS_ORIGIN_REGEX_WHITELIST = (
-    '^https?://(\w+\.)?proxy-live\.transifex\.com$',
-    '^https?://(\w+\.)?herokuapp\.com$',
-    '^https?://(\w+\.)?storiesofsolidarity\.org$',
-    '^https?://(\w+\.)?spacedog\.xyz$',
-) # allow CORS requests from our servers, and transifex
+    # allow CORS requests from our servers
+    '^https?:\/\/(\w+\.)?herokuapp\.com$',
+    '^https?:\/\/(\w+\.)?storiesofsolidarity\.org$',
+    '^https?:\/\/(\w+\.)?spacedog\.xyz$',
+    # and transifex
+    '^https?:\/\/[\w\-\.]+transifex.com$',  # with nested subdomains
+)
 CORS_ALLOW_CREDENTIALS = True
 CORS_URLS_REGEX = r'^/api/.*$'
 
