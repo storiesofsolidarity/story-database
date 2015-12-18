@@ -3,7 +3,7 @@ import requests
 from django.conf import settings
 from django.db import models
 from django.db.models import Count
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from localflavor.us.models import USStateField
@@ -148,6 +148,11 @@ class Story(models.Model):
             return "Story by Anonymous"
         else:
             return "Story, by {}".format(self.author.user_display())
+
+
+@receiver(post_save, sender=Story)
+def clear_story_cache(sender, **kwargs):
+    return expire_view_cache('story-list')
 
 
 @receiver(post_delete, sender=Story)
