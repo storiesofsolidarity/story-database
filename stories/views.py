@@ -6,8 +6,9 @@ from sos.permissions import AllowAnonymousPostOrReadOnly
 from sos.pagination import MediumResultsSetPagination, LargeResultsSetPagination
 
 from models import Story, Location
-from serializers import (StorySerializer, LocationStoriesSerializer,
-    StateStoriesSerializer, CountyStoriesSerializer, ZipcodeStoriesSerializer)
+from serializers import (StorySerializer,
+    LocationStoriesSerializer, StateStoriesSerializer,
+    CountyStoriesSerializer, ZipcodeStoriesSerializer)
 
 from localflavor.us.us_states import US_STATES
 STATE_ABBRS = {v: k for k, v in US_STATES}  # convert state names to map format
