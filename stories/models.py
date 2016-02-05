@@ -67,7 +67,8 @@ class Location(models.Model):
         payload = {
             'api_key': settings.MAPZEN_KEY,
             'boundary.country': 'USA',  # bias search response
-            'text': query
+            'text': query,
+            'layers': 'coarse'
         }
         r = requests.get('https://search.mapzen.com/v1/search', params=payload)
         try:

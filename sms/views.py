@@ -53,6 +53,7 @@ def match_zipcode(request, twilio_request, response=twiml.Response()):
                 if created:
                     query_string = '%(place name)s %(state abbreviation)s' % match
                     location.geocode(query_string)
+                    location.zipcode = zipcode  # restore zipcode, in case mapzen didn't save it
                     location.save()
                 return location
         except (ValueError, IndexError):
