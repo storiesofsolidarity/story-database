@@ -153,10 +153,9 @@ class Story(models.Model):
 
 
 @receiver(post_save, sender=Story)
-def clear_story_cache(sender, **kwargs):
-    return expire_view_cache('story-list')
-
-
 @receiver(post_delete, sender=Story)
-def clear_location_cache(sender, **kwargs):
-    return expire_view_cache('location-list')
+def clear_story_cache(sender, **kwargs):
+    expire_view_cache('story-list')
+    expire_view_cache('state-list')
+    expire_view_cache('county-list')
+    expire_view_cache('location-list')
