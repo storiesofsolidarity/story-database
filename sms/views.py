@@ -2,6 +2,7 @@ from twilio import twiml
 from django_twilio.decorators import twilio_view
 from django_twilio.request import decompose
 import re
+import requests
 
 from django.contrib.auth.models import User
 from people.models import Author
@@ -42,11 +43,21 @@ def match_zipcode(request, twilio_request, response=twiml.Response()):
     zipcode_match = re.search('(\d{5})([- ])?(\d{4})?', twilio_request.body)
     if zipcode_match:
         zipcode = zipcode_match.group(0)
-        location = Location()
-        location.geocode(zipcode)
-        return location
-    else:
-        return False
+        r = requests.get('https://api.zippopotam.us/us/%s' % zipcode)
+        # use zippopotamus for quick zipcode -> city/state lookup
+        # mapzen is surprisingly bad at this
+        try:
+            match = r.json()['places'][0]
+            if match:
+                location, created = Location.objects.get_or_create(zipcode=zipcode)
+                if created:
+                    query_string = '%(place name)s %(state abbreviation)s' % match
+                    location.geocode(query_string)
+                    location.save()
+                return location
+        except (ValueError, IndexError):
+            pass
+    return False
 
 
 @twilio_view
