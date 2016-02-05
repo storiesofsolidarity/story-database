@@ -77,6 +77,8 @@ class Location(models.Model):
                 self.city = match['properties'].get('locality')
                 self.county = match['properties'].get('county')
                 self.state = match['properties'].get('region_a')
+                self.lat = match['geometry']['coordinates'][0]
+                self.lon = match['geometry']['coordinates'][1]
                 self.geocoded = True
                 self.save()
                 return True
