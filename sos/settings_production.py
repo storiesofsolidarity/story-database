@@ -10,7 +10,7 @@ TEMPLATE_DEBUG = False
 
 # Heroku hosted database & cache
 DATABASES['default'] = dj_database_url.config()
-CACHES = memcacheify()
+CACHES = memcacheify(timeout=60)  # cache for max one minute
 
 # Sendgrid email
 EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']

@@ -160,3 +160,8 @@ def clear_story_cache(sender, **kwargs):
     expire_view_cache('state-list')
     expire_view_cache('county-list')
     expire_view_cache('location-list')
+
+
+@receiver(post_save, sender=Location)
+def clear_location_cache(sender, **kwargs):
+    expire_view_cache('location-list')

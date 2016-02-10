@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.conf import settings
 
 
-def expire_view_cache(view_name, args=[], namespace=None, key_prefix=None, method="GET"):
+def expire_view_cache(view_name, args=None, namespace=None, key_prefix=None, method="GET"):
     """
     This function allows you to invalidate any view-level cache.
         view_name: view function you wish to invalidate or it's named url pattern
