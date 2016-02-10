@@ -53,6 +53,9 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 MEDIA_URL = 'https://storiesofsolidarity.s3-website-us-west-2.amazonaws.com/'
 
+# us-data repository
+ZIPCODE_LOOKUP_URL = 'https://raw.githubusercontent.com/storiesofsolidarity/us-data/gh-pages/geography/zipcodes/all/%s.geo.json'
+
 import raven
 
 RAVEN_CONFIG = {

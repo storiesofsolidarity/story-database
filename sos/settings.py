@@ -178,6 +178,9 @@ TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 # Mapzen
 MAPZEN_KEY = 'search-0w-fs0s'
 
+# us-data local hosting
+ZIPCODE_LOOKUP_URL = 'http://localhost:3000/geography/zipcodes/all/%s.geo.json'
+
 # Amazon S3
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_STORAGE_BUCKET_NAME = "storiesofsolidarity"
