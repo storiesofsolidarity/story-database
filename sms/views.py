@@ -96,7 +96,8 @@ def sms_post(request):
                 if zipcode_location:
                     story.location = zipcode_location
                     story.save()
-                    response.message('Thank you for adding a location to your story. Find it on the map at StoriesOfSolidarity.org')
+                    response.message('Thank you for adding a location to your story. ' +
+                                     'Find it on the map at StoriesOfSolidarity.org/#read/story/%s' % story.id)
                     return response
                 else:
                     # it's a continuation of the previous content
