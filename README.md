@@ -24,22 +24,24 @@ Run it locally in a [virtualenvironment](https://virtualenv.pypa.io/en/stable/) 
 ```bash
 $ source env/bin/activate
 $ pip install -r requirements.txt
+$ export DJANGO_SETTINGS_MODULE=sos.settings_local
 $ python manager.py runserver
 ```
 
-to connect with a live phone number from Twilio, you need a web-routable domain. You can get this for free with [ngrok](https://ngrok.com)
+To connect with a live phone number from Twilio, you need a web-routable domain connected to your localhost. You can get this for free with [ngrok](https://ngrok.com).
 
-`$ ngrok http 5000`
+`$ ngrok http 8000`
 
 and place the Forwarding url https://SOMETHING.ngrok.io/sms/post/ as the Request POST URL of your Twilio phone number.
 
-When running locally you may want to turn off the SSLify middleware, unless you have a 
+When running locally you may want to turn off the SSLify middleware with `SSLIFY_DISABLE = True` in settings_local.py
 
 ### Deployment
 
 Send to Heroku with 
 
 ```bash
+$ heroku config:set DJANGO_SETTINGS_MODULE=sos.settings_production
 $ git push heroku master
 ```
 
