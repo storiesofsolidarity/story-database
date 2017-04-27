@@ -4,7 +4,7 @@ A social media tool that helps workers in low wage, precarious jobs to build new
 
 ## Database
 
-Provides structured data via a REST API, used by [stories-of-solidarity-api](https://github.com/spacedogXYZ/stories-of-solidarity-api) to display them visually. Also connects with a phone number to add new stories by SMS.
+Provides structured data via a REST API, used by the [Stories of Solidarity website](https://github.com/storiesofsolidarity/website-frontend) to display visually. Also connects with a phone number to add new stories by SMS.
 
 
 ### Technologies
