@@ -6,16 +6,25 @@ A social media tool that helps workers in low wage, precarious jobs to build new
 
 Provides structured data via a REST API, used by [stories-of-solidarity-api](https://github.com/spacedogXYZ/stories-of-solidarity-api) to display them visually. Also connects with a phone number to add new stories by SMS.
 
+## Data Structure
+
+The building blocks of this project are Stories. Stories have an author, a location, textual content, an optional image, and metadata about when it was posted.
+
+Each story has an Author, which is one-to-one mapped to the Django User model via an abstract base class. Authors can be grouped by Employer or Occupation. Authors can also be marked as Anonymous for privacy, which redacts their name in the API although not in the database. Users who wish to maintain full anonymity may use a pseudonym and should ensure that their content does not include identifying information.
+
+Text messages are parsed via the `sms` application, and users may send longer stories through multiple messages. They can end by sending their zipcode, which is matched to an existing Location object, or creating a new one.
+
+### Geolocation
+
+[Mapzen Search](https://mapzen.com/documentation/search/) is used to geolocate zipcodes to lat/lon, or to reverse geocode browser locations to zipcode. This requires a free API key, and is rate-limited.
+
+Stories are available at the state, county, and zipcode level, based on the geographic views defined in the frontend. These return previews of a few recent stories in that location, to avoid multiple roundtrips.
 
 ### Technologies
 
 * [Django](https://www.djangoproject.com) and [REST Framework](https://www.djangoproject.com)
 * [Twilio](http://django-twilio.readthedocs.io) via [django-twilio](http://django-twilio.readthedocs.io)
 * [WP-Admin](https://github.com/barszczmm/django-wpadmin)
-
-### Geolocation
-
-Uses [Mapzen Search](https://mapzen.com/documentation/search/) to geolocate zipcodes to lat/lon, or reverse geocode browser locations to zipcode. Requires a free API key.
 
 ### Development
 
