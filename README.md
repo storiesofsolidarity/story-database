@@ -14,6 +14,8 @@ Each story has an Author, which is one-to-one mapped to the Django User model vi
 
 Text messages are parsed via the `sms` application, and users may send longer stories through multiple messages. They can end by sending their zipcode, which is matched to an existing Location object, or creating a new one.
 
+More specific [API Documentation](API_DOCUMENTATION.md) for connecting with [the frontend](https://github.com/storiesofsolidarity/website-frontend)
+
 ### Geolocation
 
 [Mapzen Search](https://mapzen.com/documentation/search/) is used to geolocate zipcodes to lat/lon, or to reverse geocode browser locations to zipcode. This requires a free API key, and is rate-limited.
@@ -22,7 +24,7 @@ Stories are available at the state, county, and zipcode level, based on the geog
 
 ### Technologies
 
-* [Django](https://www.djangoproject.com) and [REST Framework](https://www.djangoproject.com)
+* [Django](https://www.djangoproject.com) and [REST Framework](http://www.django-rest-framework.org)
 * [Twilio](http://django-twilio.readthedocs.io) via [django-twilio](http://django-twilio.readthedocs.io)
 * [WP-Admin](https://github.com/barszczmm/django-wpadmin)
 
