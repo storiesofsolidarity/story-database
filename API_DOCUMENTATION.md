@@ -1,7 +1,7 @@
 API Documentation
 ====
 
-Using the [django-rest-framework](http://www.django-rest-framework.org), this API is meant to be explorable and self-discoverable. It can be browsed at [http://app.storiesofsolidarity.org/api/](http://app.storiesofsolidarity.org/api/).
+Using the [django-rest-framework](http://www.django-rest-framework.org), this API is meant to be explorable and self-discoverable. It can be browsed at [app.storiesofsolidarity.org/api/](https://app.storiesofsolidarity.org/api/).
 
 ## GET /api
 
@@ -75,7 +75,6 @@ Allow: GET, POST, HEAD, OPTIONS
     ]
 }
 ```
-
 
 Creates a new story with either an anonymous author, or one authenticated via a login token. Only accepts requests from domains in settings.CORS_ORIGIN_WHITELIST. Returns newly created story response.
 
