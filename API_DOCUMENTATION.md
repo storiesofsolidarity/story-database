@@ -78,10 +78,42 @@ Allow: GET, POST, HEAD, OPTIONS
 
 example POST https://app.storiesofsolidarity.org/api/story/
 
-Creates a new story with either an anonymous author, or one authenticated via a login token. Only accepts requests from domains in settings.CORS_ORIGIN_WHITELIST
+Creates a new story with either an anonymous author, or one authenticated via a login token. Only accepts requests from domains in settings.CORS_ORIGIN_WHITELIST. Returns newly created story response.
+
+example POST
 
 ```
-
+{
+    "id": 1121,
+    "created_at": "2017-12-19T19:37:46.421014Z",
+    "updated_at": "2017-12-19T19:37:46.421075Z",
+    "location": {
+        "id": 824,
+        "zipcode": "94612",
+        "city": "Oakland",
+        "county": "Alameda",
+        "state": "CA",
+        "lon": -122.2708,
+        "lat": 37.80437
+    },
+    "content": "this is a test story",
+    "photo": "",
+    "author": {
+        "id": 779,
+        "user": {
+            "id": 1,
+            "first_name": "Josh",
+            "last_name": "Levinger"
+        },
+        "photo": null,
+        "employer": null,
+        "occupation": null,
+        "employed": true,
+        "part_time": false,
+        "anonymous": false
+    },
+    "anonymous": false
+}
 ```
 
 ## /api/state
