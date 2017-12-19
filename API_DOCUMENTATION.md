@@ -1,7 +1,7 @@
 API Documentation
 ====
 
-Using the [django-rest-framework](http://www.django-rest-framework.org), this API is meant to be explorable and self-discoverable.
+Using the [django-rest-framework](http://www.django-rest-framework.org), this API is meant to be explorable and self-discoverable. It can be browsed at [http://app.storiesofsolidarity.org/api/](http://app.storiesofsolidarity.org/api/).
 
 ## GET /api
 
@@ -76,11 +76,25 @@ Allow: GET, POST, HEAD, OPTIONS
 }
 ```
 
-example POST https://app.storiesofsolidarity.org/api/story/
 
 Creates a new story with either an anonymous author, or one authenticated via a login token. Only accepts requests from domains in settings.CORS_ORIGIN_WHITELIST. Returns newly created story response.
 
 example POST
+
+```
+{
+    "name": "Josh Levinger",
+    "occupation": "web developer",
+    "employer": "Spacedog XYZ",
+    "location.city": "Oakland",
+    "location.county": "Alameda",
+    "location.state": "CA",
+    "content": "this is a test story"
+}
+
+```
+
+example response
 
 ```
 {
@@ -106,8 +120,8 @@ example POST
             "last_name": "Levinger"
         },
         "photo": null,
-        "employer": null,
-        "occupation": null,
+        "employer": "Spacedog XYZ",
+        "occupation": "web developer",
         "employed": true,
         "part_time": false,
         "anonymous": false
@@ -178,7 +192,7 @@ Content-Type: application/json
 
 ## /api/location
 
-Returns a read-only LocationStoriesViewSet, paginated in sets of 1000, optionally filtered by state abbreviation, full state or county name. Results include story counts by zipcode.  Pagination is controlled by sos.pagination.LargeResultsSetPagination.page_size
+Returns a read-only LocationStoriesViewSet, paginated in sets of 1000, optionally filtered by `?state` abbreviation, `?state_name` or `?county`. Results include story counts by zipcode.  Pagination is controlled by sos.pagination.LargeResultsSetPagination.page_size
 
 example GET
 
@@ -237,6 +251,9 @@ Allow: GET, HEAD, OPTIONS
             "part_time": false,
             "anonymous": false
         },
+        ...
+    ]
+}
 ```
 
 
