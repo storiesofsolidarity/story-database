@@ -1,0 +1,3 @@
+-r common.txt
+ipython==4.0.0
+ipython-genutils==0.1.0
