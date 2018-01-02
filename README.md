@@ -18,7 +18,7 @@ More specific [API Documentation](API_DOCUMENTATION.md) for connecting with [the
 
 ### Geolocation
 
-[Mapzen Search](https://mapzen.com/documentation/search/) is used to geolocate zipcodes to lat/lon, or to reverse geocode browser locations to zipcode. This requires a free API key, and is rate-limited.
+[OpenStreetMap Nominatim]https://wiki.openstreetmap.org/wiki/Nominatim) is used to geolocate zipcodes to lat/lon, or to reverse geocode browser locations to zipcode. This usage is [rate-limited](https://operations.osmfoundation.org/policies/nominatim/)
 
 Stories are available at the state, county, and zipcode level, based on the geographic views defined in the frontend. These return previews of a few recent stories in that location, to avoid multiple roundtrips.
 

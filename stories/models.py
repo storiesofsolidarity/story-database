@@ -7,10 +7,13 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from localflavor.us.models import USStateField
+from localflavor.us.us_states import STATE_CHOICES
 
 from people.models import Author
 from sos.cache import expire_view_cache
 
+STATE_NAMES = [(item[1]) for item in STATE_CHOICES]
+STATE_ABBRS = dict((item[1],item[0]) for item in STATE_CHOICES)
 
 class LocationManager(models.Manager):
     def get_queryset(self):
@@ -65,23 +68,19 @@ class Location(models.Model):
 
     def geocode(self, query):
         payload = {
-            'api_key': settings.MAPZEN_KEY,
-            'boundary.country': 'USA',  # bias search response
-            'layers': 'locality',  # we only want city-level granuality
-            'text': query,
+            'countrycodes': 'US',  # bias search response
+            'q': query,
+            'format': 'jsonv2'
         }
-        r = requests.get('https://search.mapzen.com/v1/search', params=payload)
+        headers = {'user-agent': 'stories-of-solidarity'}
+        r = requests.get('https://nominatim.openstreetmap.org/search', params=payload, headers=headers)
         try:
-            match = r.json()['features'][0]
+            match = r.json()[0] # returns multiple matches, pick first
             if match:
-                self.zipcode = match['properties'].get('postalcode', '')[:5]
-                self.city = match['properties'].get('locality')
-                self.county = match['properties'].get('county')
-                self.state = match['properties'].get('region_a')
-                self.lat = match['geometry']['coordinates'][0]
-                self.lon = match['geometry']['coordinates'][1]
-                self.geocoded = True
-                self.save()
+                self.lat = match['lat']
+                self.lon = match['lon']
+                # run coordinates through reverse to get fullly parsed fields
+                self.reverse_geocode()
                 return True
             else:
                 return False
@@ -90,19 +89,23 @@ class Location(models.Model):
 
     def reverse_geocode(self):
         payload = {
-            'api_key': settings.MAPZEN_KEY,
-            'point.lat': self.lat,
-            'point.lon': self.lon,
-            'layers': 'address',
-            'size': 1,
+            'lat': self.lat,
+            'lon': self.lon,
+            'format': 'jsonv2'
         }
-        r = requests.get('https://search.mapzen.com/v1/reverse', params=payload)
+        headers = {'user-agent': 'stories-of-solidarity'}
+        r = requests.get('https://nominatim.openstreetmap.org/reverse', params=payload, headers=headers)
         try:
-            match = r.json()['features'][0]
-            self.zipcode = match['properties'].get('postalcode')[:5]
-            self.city = match['properties'].get('locality')
-            self.county = match['properties'].get('county')
-            self.state = match['properties'].get('region_a')
+            match = r.json() # only returns one match
+            self.zipcode = match['address'].get('postcode')[:5]
+            # OSM has weird locality hierarchy, gotta check em all
+            for locality in ['city', 'town', 'village', 'hamlet']:
+                if locality in match['address']:
+                    self.city = match['address'][locality]
+            self.county = match['address'].get('county')
+            state_name = match['address'].get('state') #
+            # store 2-character abbr to model
+            self.state = STATE_ABBRS.get(state_name)
             self.geocoded = True
             self.save()
             return True
