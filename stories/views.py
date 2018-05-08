@@ -66,7 +66,10 @@ class CountyStoriesViewSet(viewsets.ReadOnlyModelViewSet):
         if state_name:
             state = STATE_ABBRS.get(state_name)  # location.state field stores 2-char abbreviation
             queryset = queryset.filter(location__state__iexact=state)
-        return (queryset.values('location__county')
+        state = params.get('state', None)
+        if state:
+            queryset = queryset.filter(location__state=state)
+        return (queryset.values('location__county', 'location__state')
             .annotate(Count('id', distinct=True))
             .order_by())
 
