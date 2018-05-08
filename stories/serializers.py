@@ -48,8 +48,17 @@ class StateStoriesSerializer(serializers.ModelSerializer):
 
 class CountyStoriesSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='location__county')
+    state = serializers.CharField(source='location__state')
+    state_name = serializers.SerializerMethodField('state_full')
     story_count = serializers.IntegerField(read_only=True, source='id__count')
     preview = serializers.SerializerMethodField('story_preview')
+
+    def state_full(self, obj):
+        abbr = obj.get('location__state')
+        if abbr:
+            return dict(US_STATES)[abbr]
+        else:
+            return ""
 
     def story_preview(self, obj):
         # returns limited preview of up recent stories in county
@@ -62,7 +71,7 @@ class CountyStoriesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = ('id', 'name', 'story_count', 'preview')
+        fields = ('id', 'name', 'state', 'state_name', 'story_count', 'preview')
 
 
 class ZipcodeStoriesSerializer(serializers.ModelSerializer):

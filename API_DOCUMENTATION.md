@@ -162,7 +162,7 @@ Content-Type: application/json
 
 ## /api/county
 
-Returns a read-only CountyStoriesViewSet, paginated in sets of 100, optionally filtered by `?state_name`. Results include story counts for counties and a short preview for initial display. Lengths are limited by sos.serializers.STORY_PREVIEW_MAX_COUNT, STORY_PREVIEW_MAX_LENGTH. Pagination is controlled by sos.pagination.MediumResultsSetPagination.page_size
+Returns a read-only CountyStoriesViewSet, paginated in sets of 100, optionally filtered by `?state_name` or `?state`. Results include story counts for counties and a short preview for initial display. Lengths are limited by sos.serializers.STORY_PREVIEW_MAX_COUNT, STORY_PREVIEW_MAX_LENGTH. Pagination is controlled by sos.pagination.MediumResultsSetPagination.page_size
 
 example GET
 
@@ -178,6 +178,8 @@ Content-Type: application/json
     "results": [
         {
             "name": "Alameda County",
+            "state": "CA",
+            "state_name": "California",
             "story_count": 2,
             "preview": [
                 "As a freelancer, I depend on the CoveredCA marketplace to buy health insurance. It can be expensive,",
